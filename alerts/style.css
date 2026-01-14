@@ -1,185 +1,205 @@
 html,
 body {
-	font-family: 'Inter', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 /* === ALERT CONTAINER === */
+/* Handles stacking, positioning and layout */
 #alert-container {
-	position: absolute;
-	bottom: 5%;
-	left: 5%;
-	display: flex;
-	flex-direction: column-reverse;
-	/* nowe alerty wlatują od dołu */
-	gap: 10px;
-	pointer-events: none;
+    position: absolute;
+    bottom: 5%;
+    left: 5%;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 12px;
+    pointer-events: none;
 }
 
-/* === BUBBLE === */
+/* === ALERT BUBBLE === */
+/* Premium glassmorphism + soft glow + smooth transitions */
 .alert {
-	display: flex;
-	align-items: center;
-	gap: 12px;
-	padding: 16px 22px;
-	border-radius: 18px;
-	background: rgba(0, 0, 0, 0.55);
-	backdrop-filter: blur(12px);
-	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
-	max-width: 480px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 24px;
+    border-radius: 20px;
 
-	opacity: 0;
-	transform: translateY(20px);
-	transition: opacity 0.6s ease, transform 0.6s ease;
+    /* Glass effect */
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(14px);
+
+    /* Soft shadow */
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+
+    /* Subtle border for premium finish */
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    max-width: 520px;
+
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
 }
 
 .alert.visible {
-	opacity: 1;
-	transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .alert.no-avatar .text {
-	margin-left: 0;
+    margin-left: 0;
+}
+
+/* === GLASS REFLECTION === */
+/* Adds a subtle premium highlight */
+.alert::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(120deg, rgba(255,255,255,0.08), transparent 60%);
+    pointer-events: none;
 }
 
 /* === AVATAR === */
+/* Smooth scale-in + shadow */
 .avatar {
-	width: 64px;
-	height: 64px;
-	border-radius: 12px;
-	object-fit: cover;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    width: 64px;
+    height: 64px;
+    border-radius: 14px;
+    object-fit: cover;
+
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.45);
+
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
 .avatar.hidden {
+    opacity: 0;
+    transform: scale(0.85);
     display: none;
-}
-
-.avatar.hidden-avatar {
-	display: none;
 }
 
 /* === TEXT === */
 .text {
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .username {
-	font-size: 1.3em;
-	font-weight: 700;
+    font-size: 1.35em;
+    font-weight: 700;
+    letter-spacing: 0.3px;
 }
 
 .message {
-	font-size: 1em;
-	font-weight: 400;
-	line-height: 1.3em;
+    font-size: 1em;
+    font-weight: 400;
+    line-height: 1.35em;
+    opacity: 0.92;
 }
 
+/* === PLATFORM COLORS (OFFICIAL BRAND GUIDELINES) === */
+/* Each includes a soft glow for premium look */
+
+/* TWITCH */
 .alert.twitch {
-	background: linear-gradient(135deg, #9146FFaa, #6d5ca1aa);
+    background: linear-gradient(135deg, #9146FF, #5a2dbf);
+    color: #fff;
+    box-shadow: 0 0 18px #9146FF55;
 }
 
+/* YOUTUBE */
 .alert.youtube {
-	background: linear-gradient(135deg, #FF0000aa, #cc0000aa);
+    background: linear-gradient(135deg, #FF0000, #b30000);
+    color: #fff;
+    box-shadow: 0 0 18px #FF000055;
 }
 
+/* KICK */
 .alert.kick {
-	background: linear-gradient(135deg, #53fc18aa, #005600aa);
+    background: linear-gradient(135deg, #53fc18, #1e7a00);
+    color: #0a0a0a;
+    box-shadow: 0 0 18px #53fc1855;
 }
 
+/* TIKTOK */
 .alert.tiktok {
-	background: linear-gradient(135deg, #000000aa, #262626aa);
+    background: linear-gradient(135deg, #000000, #262626);
+    color: #fff;
+    box-shadow: 0 0 18px #EE1D5255;
 }
 
+/* KO-FI */
 .alert.kofi {
-	background: linear-gradient(135deg, #54c7eeaa, #08c2ffaa);
+    background: linear-gradient(135deg, #29ABE0, #0b7aa8);
+    color: #fff;
+    box-shadow: 0 0 18px #29ABE055;
 }
 
+/* STREAMELEMENTS */
 .alert.streamelements {
-	background: linear-gradient(135deg, #263b8aaa, #0a112aaa);
+    background: linear-gradient(135deg, #1E90FF, #0a112a);
+    color: #fff;
+    box-shadow: 0 0 18px #1E90FF55;
 }
 
+/* STREAMLABS */
 .alert.streamlabs {
-	background: linear-gradient(135deg, #73dabbaa, #397765aa);
+    background: linear-gradient(135deg, #00ffcc, #00997f);
+    color: #0a0a0a;
+    box-shadow: 0 0 18px #00ffcc55;
 }
 
+/* PATREON */
 .alert.patreon {
-	background: linear-gradient(135deg, #fd5e0aaa, #c76633aa);
+    background: linear-gradient(135deg, #FF424D, #b81f27);
+    color: #fff;
+    box-shadow: 0 0 18px #FF424D55;
 }
 
+/* FOURTHWALL */
 .alert.fourthwall {
-	background: linear-gradient(135deg, #466edbaa, #1c56f5aa);
+    background: linear-gradient(135deg, #466edb, #1c3a8f);
+    color: #fff;
+    box-shadow: 0 0 18px #466edb55;
 }
 
+/* TIPEEE STREAM */
 .alert.tipeeestream {
-	background: linear-gradient(135deg, #120e23aa, #5d192aaa);
+    background: linear-gradient(135deg, #5d192a, #120e23);
+    color: #fff;
+    box-shadow: 0 0 18px #5d192a55;
 }
 
-/* === ANIMACJE KIERUNKOWE === */
+/* === DIRECTION ANIMATIONS === */
+.alert.dir-bottom-up { transform: translateY(20px); }
+.alert.dir-bottom-up.visible { transform: translateY(0); }
 
-/* bottom-up (default) */
-.alert.dir-bottom-up {
-    transform: translateY(20px);
-}
-.alert.dir-bottom-up.visible {
-    transform: translateY(0);
-}
+.alert.dir-top-down { transform: translateY(-20px); }
+.alert.dir-top-down.visible { transform: translateY(0); }
 
-/* top-down */
-.alert.dir-top-down {
-    transform: translateY(-20px);
-}
-.alert.dir-top-down.visible {
-    transform: translateY(0);
-}
+.alert.dir-left-right { transform: translateX(-40px); }
+.alert.dir-left-right.visible { transform: translateX(0); }
 
-/* left-right */
-.alert.dir-left-right {
-    transform: translateX(-40px);
-}
-.alert.dir-left-right.visible {
-    transform: translateX(0);
-}
+.alert.dir-right-left { transform: translateX(40px); }
+.alert.dir-right-left.visible { transform: translateX(0); }
 
-/* right-left */
-.alert.dir-right-left {
-    transform: translateX(40px);
-}
-.alert.dir-right-left.visible {
-    transform: translateX(0);
-}
+/* === ENTRY ANIMATIONS === */
+.alert.anim-slide-fade { opacity: 0; transform: translateY(20px); }
+.alert.anim-slide-fade.visible { opacity: 1; transform: translateY(0); }
 
-/* === ANIMACJE ALERTÓW === */
+.alert.anim-fade { opacity: 0; }
+.alert.anim-fade.visible { opacity: 1; }
 
-/* SLIDE + FADE (Discord) */
-.alert.anim-slide-fade {
-    opacity: 0;
-    transform: translateY(20px);
-}
-.alert.anim-slide-fade.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
+.alert.anim-scale { opacity: 0; transform: scale(0.8); }
+.alert.anim-scale.visible { opacity: 1; transform: scale(1); }
 
-/* FADE ONLY */
-.alert.anim-fade {
-    opacity: 0;
-}
-.alert.anim-fade.visible {
-    opacity: 1;
-}
-
-/* SCALE-IN (TikTok) */
-.alert.anim-scale {
-    opacity: 0;
-    transform: scale(0.8);
-}
-.alert.anim-scale.visible {
-    opacity: 1;
-    transform: scale(1);
-}
-
-.alert.pre-anim {
-    opacity: 0;
-}
+.alert.pre-anim { opacity: 0; }

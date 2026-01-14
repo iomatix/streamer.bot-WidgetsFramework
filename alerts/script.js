@@ -1394,8 +1394,8 @@ function showClassicAlert(alert) {
 		setTimeout(() => {
 			isShowing = false;
 			processQueue();
-		}, 500);
-	}, 5000);
+		}, 550);
+	}, 5500);
 }
 
 function showStackedAlert(alert) {
@@ -1418,8 +1418,8 @@ function showStackedAlert(alert) {
 		el.classList.remove("visible");
 		setTimeout(() => {
 			el.remove();
-		}, 500);
-	}, 5000);
+		}, 550);
+	}, 5500);
 
 	processQueue();
 }
