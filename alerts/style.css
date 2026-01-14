@@ -1,0 +1,185 @@
+html,
+body {
+	font-family: 'Inter', sans-serif;
+}
+
+/* === ALERT CONTAINER === */
+#alert-container {
+	position: absolute;
+	bottom: 5%;
+	left: 5%;
+	display: flex;
+	flex-direction: column-reverse;
+	/* nowe alerty wlatują od dołu */
+	gap: 10px;
+	pointer-events: none;
+}
+
+/* === BUBBLE === */
+.alert {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 16px 22px;
+	border-radius: 18px;
+	background: rgba(0, 0, 0, 0.55);
+	backdrop-filter: blur(12px);
+	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+	max-width: 480px;
+
+	opacity: 0;
+	transform: translateY(20px);
+	transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.alert.visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.alert.no-avatar .text {
+	margin-left: 0;
+}
+
+/* === AVATAR === */
+.avatar {
+	width: 64px;
+	height: 64px;
+	border-radius: 12px;
+	object-fit: cover;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.avatar.hidden {
+    display: none;
+}
+
+.avatar.hidden-avatar {
+	display: none;
+}
+
+/* === TEXT === */
+.text {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.username {
+	font-size: 1.3em;
+	font-weight: 700;
+}
+
+.message {
+	font-size: 1em;
+	font-weight: 400;
+	line-height: 1.3em;
+}
+
+.alert.twitch {
+	background: linear-gradient(135deg, #9146FFaa, #6d5ca1aa);
+}
+
+.alert.youtube {
+	background: linear-gradient(135deg, #FF0000aa, #cc0000aa);
+}
+
+.alert.kick {
+	background: linear-gradient(135deg, #53fc18aa, #005600aa);
+}
+
+.alert.tiktok {
+	background: linear-gradient(135deg, #000000aa, #262626aa);
+}
+
+.alert.kofi {
+	background: linear-gradient(135deg, #54c7eeaa, #08c2ffaa);
+}
+
+.alert.streamelements {
+	background: linear-gradient(135deg, #263b8aaa, #0a112aaa);
+}
+
+.alert.streamlabs {
+	background: linear-gradient(135deg, #73dabbaa, #397765aa);
+}
+
+.alert.patreon {
+	background: linear-gradient(135deg, #fd5e0aaa, #c76633aa);
+}
+
+.alert.fourthwall {
+	background: linear-gradient(135deg, #466edbaa, #1c56f5aa);
+}
+
+.alert.tipeeestream {
+	background: linear-gradient(135deg, #120e23aa, #5d192aaa);
+}
+
+/* === ANIMACJE KIERUNKOWE === */
+
+/* bottom-up (default) */
+.alert.dir-bottom-up {
+    transform: translateY(20px);
+}
+.alert.dir-bottom-up.visible {
+    transform: translateY(0);
+}
+
+/* top-down */
+.alert.dir-top-down {
+    transform: translateY(-20px);
+}
+.alert.dir-top-down.visible {
+    transform: translateY(0);
+}
+
+/* left-right */
+.alert.dir-left-right {
+    transform: translateX(-40px);
+}
+.alert.dir-left-right.visible {
+    transform: translateX(0);
+}
+
+/* right-left */
+.alert.dir-right-left {
+    transform: translateX(40px);
+}
+.alert.dir-right-left.visible {
+    transform: translateX(0);
+}
+
+/* === ANIMACJE ALERTÓW === */
+
+/* SLIDE + FADE (Discord) */
+.alert.anim-slide-fade {
+    opacity: 0;
+    transform: translateY(20px);
+}
+.alert.anim-slide-fade.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* FADE ONLY */
+.alert.anim-fade {
+    opacity: 0;
+}
+.alert.anim-fade.visible {
+    opacity: 1;
+}
+
+/* SCALE-IN (TikTok) */
+.alert.anim-scale {
+    opacity: 0;
+    transform: scale(0.8);
+}
+.alert.anim-scale.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.alert.pre-anim {
+    opacity: 0;
+}
