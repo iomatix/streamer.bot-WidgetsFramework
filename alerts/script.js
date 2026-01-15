@@ -25,6 +25,9 @@ const ALERT_ANIMATION = "scale";
 // Optional tag filter from URL (?tag=...)
 const PARAM_TAG = getParam("tag"); // single tag for now
 
+// Theme mode: "platform" or "custom"
+const PARAM_THEME_MODE = getParam("themeMode") || "platform";
+
 // Platform toggles (keep as runtime feature flags)
 const ENABLE_TWITCH = true;
 const ENABLE_YOUTUBE = false;
@@ -231,7 +234,16 @@ const AlertQueue = {
 	 * Processes the queue depending on ALERT_MODE.
 	 */
 	process() {
-		if (ALERT_MODE === "classic") {
+		if (ALERT_MODE === "stacked") {
+			const DISPLAY_TIME = 5000;
+			const EXIT_TIME = 500;
+
+			setTimeout(() => {
+				el.classList.add("exit");
+				setTimeout(() => el.remove(), EXIT_TIME);
+			}, DISPLAY_TIME);
+		}
+		else if (ALERT_MODE === "classic") {
 			if (this.isShowing) return;
 			if (this.queue.length === 0) return;
 
@@ -241,13 +253,7 @@ const AlertQueue = {
 				this.isShowing = false;
 				this.process();
 			});
-		} else {
-			// stacked mode: show all events as they come, no blocking
-			while (this.queue.length > 0) {
-				const next = this.queue.shift();
-				Renderer.showAlert(next, null);
-			}
-		}
+		} 
 	}
 };
 
@@ -315,7 +321,7 @@ const Renderer = {
 		const el = this.buildAlertElement(alert);
 
 		// Apply animation + direction classes
-		el.classList.add("alert");
+		el.classList.add("alert-item");
 		el.classList.add(`anim-${ALERT_ANIMATION}`);
 		el.classList.add(`dir-${ALERT_DIRECTION}`);
 
@@ -326,10 +332,15 @@ const Renderer = {
 
 		el.classList.add("visible");
 
-		// Classic mode: remove after animation and call onComplete
+		// If in index/list mode → DO NOT auto-remove
+		if (PARAM_INDEX !== null || PARAM_LIST !== null) {
+			return;
+		}
+
+		// Classic mode: show one at a time
 		if (ALERT_MODE === "classic") {
-			const DISPLAY_TIME = 5000; // ms visible before exit animation
-			const EXIT_ANIM_TIME = 500; // ms for exit animation
+			const DISPLAY_TIME = 5000;
+			const EXIT_TIME = 500;
 
 			setTimeout(() => {
 				el.classList.add("exit");
@@ -338,7 +349,20 @@ const Renderer = {
 					if (typeof onComplete === "function") {
 						onComplete();
 					}
-				}, EXIT_ANIM_TIME);
+				}, EXIT_TIME);
+			}, DISPLAY_TIME);
+
+			return;
+		}
+
+		// Stacked mode: show many, each with its own timeout
+		if (ALERT_MODE === "stacked") {
+			const DISPLAY_TIME = 5000;
+			const EXIT_TIME = 500;
+
+			setTimeout(() => {
+				el.classList.add("exit");
+				setTimeout(() => el.remove(), EXIT_TIME);
 			}, DISPLAY_TIME);
 		}
 	},
@@ -349,7 +373,9 @@ const Renderer = {
 	buildAlertElement(alert) {
 		const el = document.createElement("div");
 		el.classList.add("alert-item");
-		el.classList.add(`platform-${alert.platform}`);
+		if (PARAM_THEME_MODE === "platform") {
+			el.classList.add(`platform-${alert.platform}`);
+		}
 		el.classList.add(`type-${alert.type}`);
 		if (alert.subtype) {
 			el.classList.add(`subtype-${alert.subtype}`);
@@ -1684,7 +1710,7 @@ function initDebugPanel() {
             description: "used their Prime Sub",
             attribute: "12 months",
             message: "This is a debug message",
-            avatar: "https://placekitten.com/128/128",
+            avatar: `https://placekittens.com/${100 + Math.floor(Math.random()*50)}/${100 + Math.floor(Math.random()*50)}`,
             raw: {}
         });
         updateDebugBuffer();
@@ -1705,6 +1731,25 @@ function initDebugPanel() {
 
 window.addEventListener("load", initDebugPanel);
 
+/****************************************************
+ * LIVE CSS INJECTION (for Test Harness)
+ ****************************************************/
+
+function applyLiveCSS(css) {
+    let styleTag = document.getElementById("live-css");
+    if (!styleTag) {
+        styleTag = document.createElement("style");
+        styleTag.id = "live-css";
+        document.head.appendChild(styleTag);
+    }
+    styleTag.textContent = css;
+}
+
+window.addEventListener("message", (event) => {
+    if (event.data.type === "liveCSS") {
+        applyLiveCSS(event.data.css);
+    }
+});
 
 /****************************************************
  * WIDGET API (Public Interface)

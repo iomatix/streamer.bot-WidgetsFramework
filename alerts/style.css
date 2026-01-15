@@ -260,3 +260,13 @@ html, body {
 
 .alert-item.anim-scale { opacity: 0; transform: scale(0.8); }
 .alert-item.anim-scale.visible { opacity: 1; transform: scale(1); }
+
+/* ============================================
+   Exit ANIMATIONS
+   ============================================ */
+
+.alert-item.exit {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}

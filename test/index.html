@@ -50,11 +50,31 @@
             <option value="minimal">Minimal</option>
         </select>
 
+        <h2>Render Mode</h2>
+        <select id="render-mode">
+            <option value="live">Live Alerts</option>
+            <option value="index">Index Mode</option>
+            <option value="list">List Mode</option>
+        </select>
+
+        <div id="render-options">
+            <!-- dynamic options will appear here -->
+        </div>
+
+        <button id="apply-render">Apply Render Mode</button>
+
         <button id="apply-theme">Apply Theme</button>
+
+        <h2>Stress Test</h2>
+        <button id="stress-test">Run Stress Test (100 events)</button>
 
         <h2>Custom JSON Event</h2>
         <textarea id="json-input" placeholder="Paste UEM JSON here"></textarea>
         <button id="send-json">Send JSON Event</button>
+
+        <h2>Live CSS Editor</h2>
+        <textarea id="live-css-editor" placeholder="Type CSS here..."></textarea>
+        <button id="apply-live-css">Apply Live CSS</button>
     </div>
 
     <iframe id="widget-frame" src="../alerts/index.html?debug=1" frameborder="0"></iframe>
