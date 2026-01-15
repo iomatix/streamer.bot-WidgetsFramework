@@ -433,7 +433,7 @@ const Renderer = {
  * 6. STREAMER.BOT CLIENT
  * ================================ */
 
-// TODO: Use shared/sb-client.js
+// TODO: Use shared/sb-client.js !!! IMPORTANT: ONLY ONE CLIENT CAN BE USED FOR THE WHOLE PROJECT ! ! !
 const client = new StreamerbotClient({
 	host: SB_SERVER_ADDRESS,
 	port: SB_SERVER_PORT,

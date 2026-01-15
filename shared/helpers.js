@@ -159,27 +159,48 @@ export function TranslateToFurry(sentence) {
     const furryWords = words.map(word => {
         if (!/\w+/.test(word)) return word;
 
+        // Word replacements
         let newWord = word
             .replace(/l/g, 'w')
             .replace(/r/g, 'w')
             .replace(/th/g, 'f')
-            .replace(/you/g, 'yous')
-            .replace(/my/g, 'mah')
-            .replace(/me/g, 'meh')
-            .replace(/very/g, 'vewy')
-            .replace(/pretty/g, 'pwetty')
-            .replace(/little/g, 'wittle')
-            .replace(/nice/g, 'nyce');
+            .replace(/\byou\b/g, 'yous')
+            .replace(/\bmy\b/g, 'mah')
+            .replace(/\bme\b/g, 'meh')
+            .replace(/\bvery\b/g, 'vewy')
+            .replace(/\bpretty\b/g, 'pwetty')
+            .replace(/\blittle\b/g, 'wittle')
+            .replace(/\bnice\b/g, 'nyce')
+            .replace(/\bfriend\b/g, 'fwend')
+            .replace(/\bhappy\b/g, 'hawppy 😸')
+            .replace(/\bcat\b/g, 'kitteh')
+            .replace(/\bdog\b/g, 'pupper')
+            .replace(/\bfood\b/g, 'nomnom')
+            .replace(/\bheart\b/g, 'heawt')
+            .replace(/\bhello\b/g, 'hewwo')
+            .replace(/\bstop\b/g, 'stawp')
+            .replace(/\bokay\b/g, 'okie');
 
-        if (Math.random() < 0.15) newWord += ' nya~';
-        else if (Math.random() < 0.1) newWord += ' >w<';
-        else if (Math.random() < 0.05) newWord += ' owo';
+        // Random stuttering for emphasis (e.g., "hello" → "h-hewwo")
+        if (Math.random() < 0.05 && newWord.length > 2) {
+            const firstChar = newWord[0];
+            newWord = `${firstChar}-${newWord}`;
+        }
+
+        // Random suffixes
+        const suffixChance = Math.random();
+        if (suffixChance < 0.15) newWord += ' nya~';
+        else if (suffixChance < 0.25) newWord += ' >w<';
+        else if (suffixChance < 0.3) newWord += ' owo';
+        else if (suffixChance < 0.35) newWord += ' rawr';
+        else if (suffixChance < 0.4) newWord += ' uwu';
 
         return newWord;
     });
 
     return furryWords.join('');
 }
+
 
 export function EscapeRegExp(string) {
     return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
