@@ -1,32 +1,80 @@
 # Streamer.bot Widgets Framework – Documentation
 
-This repository contains complete documentation for the **Streamer.bot Widgets Framework** – a modular, multi-platform alert and activity system designed for streamers, VTubers, and content creators.
+Welcome to the official documentation for the **Streamer.bot Widgets Framework**.
 
-## Table of Contents
+This section contains all technical and usage-related documents describing how the framework works, how events are processed, and how widgets are rendered.
 
-- [README.md](./README.md)  
-  Main project overview, features, installation instructions and basic usage
+The documentation is split into focused files to avoid duplication and keep each topic easy to maintain.
 
-- [docs/event-matrix.md](../docs/event-matrix.md)  
-  Complete event type / subtype / tag matrix across all supported platforms
+---
 
-- [docs/architecture.md](../docs/architecture.md)  
-  Framework architecture, module breakdown and data flow explanation
+## 📖 How to Read These Docs
 
-- [docs/widget-api.md](../docs/widget-api.md)  
-  Widget API reference, URL parameters and usage examples
+If this is your first time using the framework, we recommend reading the documentation in the following order:
 
-- [docs/parameters.md](../docs/parameters.md)  
-  Detailed description of all supported URL parameters and filtering options
+1. **Architecture** – understand how the system works internally
+2. **Event Matrix** – see which platforms and events are supported
+3. **URL Parameters** – learn how to filter and control widgets
+4. **Widget API** – understand widget types and rendering lifecycle
 
-## Quick Links
+---
 
-- Main README → [README.md](../README.md)
-- Event Matrix → [docs/event-matrix.md](../docs/event-matrix.md)
-- Architecture → [docs/architecture.md](../docs/architecture.md)
-- Widget API → [docs/widget-api.md](../docs/widget-api.md)
-- URL Parameters → [docs/parameters.md](../docs/parameters.md)
+## 📚 Documentation Index
 
-All documentation files are located in the `/docs` folder (when applicable) and are ready to be used directly in the repository.
+### Core Concepts
 
-Feel free to open issues or submit pull requests if you'd like to improve or expand any part of the documentation.
+- **Architecture**  
+  `architecture.md`  
+  Internal modules, data flow, rendering logic, and design principles
+
+- **Unified Event Model & Event Matrix**  
+  `event-matrix.md`  
+  Complete list of supported platforms, event types, subtypes, and tags
+
+---
+
+### Widget Usage
+
+- **URL Parameters**  
+  `parameters.md`  
+  All supported URL parameters, filtering rules, and rendering modes
+
+- **Widget API**  
+  `widget-api.md`  
+  Widget types, rendering lifecycle, and integration patterns
+
+---
+
+## 🧠 Design Philosophy
+
+- One unified event model for all platforms
+- URL-driven, stateless widgets
+- Clear separation between data, logic, and rendering
+- Easy extensibility without breaking existing widgets
+
+---
+
+## 🧩 Adding New Documentation
+
+When extending the framework, new documentation should:
+
+- live inside the `/docs` directory
+- focus on a single responsibility
+- avoid duplicating information from existing files
+- reference other documents instead of restating them
+
+---
+
+## 🔮 Planned Documentation
+
+Future documentation may include:
+
+- Theme and styling system
+- Animation and transition reference
+- Goal and progress widgets
+- Chat widgets
+- Configuration schema
+
+---
+
+If you find missing information or unclear sections, feel free to open an issue or submit a pull request.

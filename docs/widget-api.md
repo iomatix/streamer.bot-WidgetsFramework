@@ -1,72 +1,141 @@
-## Widget API – Streamer.bot Widgets Framework
-────────────────────────────────────────────
+# Widget API – Streamer.bot Widgets Framework
 
-This document explains how widgets communicate with the framework
-using URL parameters.
+This document describes how widgets interact with the framework at runtime.
 
-Widget Types
-────────────
+The Widget API focuses on **widget types, rendering lifecycle, and integration patterns**.
 
-1. Alert Widget (default)
-   Real-time alert display (classic / stacked mode)
+> Detailed URL parameter behavior is documented separately in `parameters.md`.
 
-2. Indexed Widget
-   Shows exactly one event from the buffer
+---
 
-   Example:
-   alerts/index.html?index=0
+## Widget Types
 
-3. List Widget
-   Shows N most recent events
+### 1. Alert Widget (Default)
 
-   Example:
-   alerts/index.html?list=6
+- Real-time alert display
+- Uses the internal alert queue
+- Supports classic (single) and stacked display modes
+- Triggered when **no rendering parameters** are provided
 
-4. Filtered Widgets
-   Shows events matching given criteria
+**Typical usage:**
+```
+/alerts/
+```
 
-   Examples:
-   alerts/index.html?platform=twitch
-   alerts/index.html?type=sub
-   alerts/index.html?tag=gift
+---
 
-Combining Parameters
-────────────────────
+### 2. Indexed Widget
 
-You can freely combine filters:
+Displays **exactly one event** from the event buffer.
 
-alerts/index.html?list=5&platform=twitch&type=sub&tag=gift
+- Uses the `index` parameter
+- `index = 0` always refers to the most recent event
+- No queue or timing logic
 
-Widget Rendering Lifecycle
-──────────────────────────
+**Example:**
+```
+/alerts/?index=0
+```
+
+---
+
+### 3. List Widget
+
+Displays the **N most recent events** from the event buffer.
+
+- Uses the `list` parameter
+- Events are rendered simultaneously
+- Commonly used for activity feeds and history panels
+
+**Example:**
+```
+/alerts/?list=6
+```
+
+---
+
+### 4. Filtered Widgets
+
+Any widget type can be filtered using URL parameters.
+
+Filters can be applied by:
+- platform
+- event type
+- semantic tags
+
+**Examples:**
+```
+/alerts/?platform=twitch
+/alerts/?type=sub
+/alerts/?tag=gift
+```
+
+Filters can be freely combined with rendering modes.
+
+---
+
+## Widget Rendering Lifecycle
+
+Each widget follows the same rendering pipeline:
 
 1. Parse URL parameters
-2. Filter the event buffer accordingly
-3. Select appropriate rendering mode
-4. Build DOM structure
-5. Apply CSS animations & transitions
-6. Display the final widget
+2. Read from the shared event buffer
+3. Apply filters (platform → type → tag)
+4. Select rendering mode (alert / index / list)
+5. Build DOM structure
+6. Apply CSS styles and animations
+7. Display the final widget output
 
-Creating New Widgets
-────────────────────
+This guarantees consistent behavior across all widget types.
 
-To add your own custom widget:
+---
 
-1. Create folder:  /widgets/your-widget-name/
-2. Add at minimum:
-   • index.html
-   • script.js
-   • style.css
-3. Use the shared event buffer + filtering system
-4. Render using the same unified event model
+## Creating Custom Widgets
 
-OBS / Streamlabs Integration
-────────────────────────────
+To create your own widget using the framework:
 
-Add Browser Source pointing to:
+1. Create a new folder:
+   ```
+   /widgets/your-widget-name/
+   ```
 
+2. Add the minimum required files:
+   - `index.html`
+   - `script.js`
+   - `style.css`
+
+3. Use the shared:
+   - event buffer
+   - filtering logic
+   - unified event model
+
+4. Render content using your own layout and animations
+
+Custom widgets automatically benefit from all existing platforms and events.
+
+---
+
+## OBS / Streamlabs Integration
+
+Widgets are embedded using a **Browser Source**.
+
+Point the source to your local widget server, for example:
+
+```
 http://127.0.0.1:8181/alerts/?index=0
 http://127.0.0.1:8181/alerts/?list=6
 http://127.0.0.1:8181/alerts/?platform=twitch&type=raid
+```
 
-(or any other combination of parameters)
+Any valid combination of rendering and filtering parameters is supported.
+
+---
+
+## Design Notes
+
+- Widgets are stateless and URL-driven
+- Rendering logic is fully decoupled from data sources
+- All widgets operate on the same unified event model
+- New widget types can be added without modifying the core framework
+
+This API is intentionally minimal to keep widgets predictable, reusable, and easy to maintain.

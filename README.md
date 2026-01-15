@@ -1,53 +1,76 @@
 # Streamer.bot Widgets Framework
 
-A modular, multi-platform alert and activity feed system built for Streamer.bot.  
-Designed for VTubers, streamers, and content creators who want full control over their overlays without depending on StreamElements, Streamlabs, or similar services.
+A modular, multi-platform **alert and activity widget system** built for **Streamer.bot**.
 
-### Features
+Designed for streamers, VTubers, and content creators who want **full control over their overlays** without relying on third-party services like StreamElements or Streamlabs.
 
-- Multi-platform alert rendering  
-- Event buffer (keeps the last 16 events)  
-- Indexed widgets (`?index=0`) – single event view  
-- List widgets (`?list=6`) – multiple recent events  
-- Filtering by:  
-  - platform (`?platform=twitch`)  
-  - event type (`?type=sub`)  
-  - tag (`?tag=gift`)  
-- Premium look & feel (glassmorphism, gradients, smooth animations)  
-- Fully modular architecture – easy to add new widgets (chat, event list, goals, credits, etc.)
+---
+
+## ✨ Features
+
+- Multi-platform event support
+- Unified event model across all platforms
+- Rolling event buffer (last 16 events)
+- Multiple widget rendering modes:
+  - **Alert widgets** (real-time, queue-based)
+  - **Indexed widgets** (`?index=0` – single event)
+  - **List widgets** (`?list=6` – recent events)
+- Powerful filtering by:
+  - platform (`?platform=twitch`)
+  - event type (`?type=sub`)
+  - semantic tags (`?tag=gift`)
+- Modern visual style:
+  - glassmorphism
+  - platform-specific gradients
+  - smooth animations and transitions
+- Modular architecture – easy to extend with new widgets
 
 ---
 
 ## 🚀 Installation
 
-1. Clone or download this repository  
-2. Start the local server:  
-   - Windows: double-click `start_server.bat`  
-   - or manually: `python run_widget_server.py`  
-3. Add a **Browser Source** in OBS / Streamlabs Desktop pointing to:
-    - `http://127.0.0.1:8181/alerts/`
+1. Clone or download this repository
+2. Start the local widget server:
+
+   **Windows**
+   ```
+   start_server.bat
+   ```
+
+   **Manual**
+   ```
+   python run_widget_server.py
+   ```
+
+3. Add a **Browser Source** in OBS / Streamlabs Desktop:
+   ```
+   http://127.0.0.1:8181/alerts/
+   ```
 
 ---
 
-## 🔧 URL Parameters
+## 🔧 Basic Usage
 
-| Parameter     | Example                              | Description                                      |
-|---------------|--------------------------------------|--------------------------------------------------|
-| `index`       | `?index=0`                           | Show single event (0 = most recent)              |
-| `list`        | `?list=6`                            | Show the last N events                           |
-| `platform`    | `?platform=twitch`                   | Filter by platform                               |
-| `type`        | `?type=donation`                     | Filter by main event type                        |
-| `tag`         | `?tag=gift`                          | Filter by tag / subtype                          |
+The framework is fully controlled using **URL parameters**.
 
-You can combine parameters:
-    - `alerts/index.html?list=5&platform=twitch&type=sub&tag=gift`
+### Examples
 
+```text
+/alerts/                     → normal alert mode
+/alerts/?index=0             → single most recent event
+/alerts/?list=6              → last 6 events
+/alerts/?platform=twitch     → Twitch-only events
+/alerts/?list=5&type=sub     → last 5 subscription events
+/alerts/?list=5&tag=gift     → last 5 gift events
+```
+
+Parameters can be freely combined to create custom widgets.
 
 ---
 
 ## 📦 Unified Event Model
 
-Every incoming event is normalized into this structure:
+Every incoming event is normalized into a single structure:
 
 ```js
 {
@@ -55,53 +78,79 @@ Every incoming event is normalized into this structure:
   type:        "sub",
   subtype:     "prime",
   tags:        ["sub", "prime", "twitch"],
-  username:    "Mateusz",
+  username:    "ViewerName",
   description: "used their Prime Sub",
   attribute:   "12 months",
-  message:     "Pozdro!",
+  message:     "Thanks for the stream!",
   avatar:      "https://...",
-  raw:         { ... original platform payload ... }
+  raw:         { ... }
 }
 ```
 
-Full event type / subtype / tag matrix → see `/docs/event-matrix.md`
+This guarantees consistent rendering and filtering across all widgets and platforms.
 
-Supported platforms include (but are not limited to):  
-Twitch, YouTube, Kick, Ko-fi, StreamElements, Streamlabs, Fourthwall, TikTok
+---
 
-## 🌿 Browse Docs
+## 🌍 Supported Platforms
 
-- Docs README → [README.md](./docs/README.md)
-- Event Matrix → [docs/event-matrix.md](./docs/event-matrix.md)
-- Architecture → [docs/architecture.md](./docs/architecture.md)
-- Widget API → [docs/widget-api.md](./docs/widget-api.md)
-- URL Parameters → [docs/parameters.md](./docs/parameters.md)
+- Twitch
+- YouTube
+- Kick
+- Ko-fi
+- StreamElements
+- Streamlabs
+- Fourthwall
+- TikTok (via TikFinity)
+
+More platforms can be added without changing widget logic.
+
+---
+
+## 📚 Documentation
+
+Full documentation is available in the `/docs` directory:
+
+- **Event Matrix** – supported platforms, event types, tags
+- **Architecture** – internal modules and data flow
+- **Widget API** – widget types and rendering lifecycle
+- **URL Parameters** – filtering and rendering options
+
+👉 Start here: `/docs/README.md`
 
 ---
 
 ## 🛠️ Roadmap
 
-- Chat overlay  
-- Event list widget  
-- Goal widgets (follower/sub/donation goals)  
-- Credits roll / end screen  
-- Theme system  
-- JSON-based configuration  
-- OBS layout helpers  
-- Multi-tag filtering (`?tag=sub,gift,raid`)  
-- Tag exclusion (`?excludeTag=prime,lurk`)
+- Chat overlay widgets
+- Event list / activity feed widgets
+- Goal widgets (followers, subs, donations)
+- Credits roll / end screen
+- Theme system (CSS variables)
+- JSON-based configuration
+- Multi-tag filtering (`?tag=a,b,c`)
+- Tag exclusion (`?excludeTag=xyz`)
 
 ---
 
 ## 🤝 Contributing
 
-Pull requests are welcome!  
-Please keep the code modular and respect the existing architecture.
+Pull requests and improvements are welcome.
+
+Please keep changes:
+- modular
+- platform-agnostic
+- consistent with the unified event model
+
+## Contributors
+
+<a href="https://github.com/iomatix/streamer.bot-WidgetsFramework/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=iomatix/streamer.bot-WidgetsFramework/" />
+</a>
+
+---
 
 ## 📄 License
 
-MIT License  
+MIT License
 
-Copyright (c) 2025  
-
-Full license text → `LICENSE.md`
+© 2025
