@@ -1,0 +1,26 @@
+.nameplate-card {
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+}
+
+.nameplate-card.flipped {
+    transform: rotateY(180deg);
+}
+
+.nameplate-face {
+    position: absolute;
+    backface-visibility: hidden;
+}
+
+.nameplate-front {
+    transform: rotateY(180deg);
+}
+
+.nameplate-dir-left {
+    transform: translateX(-200%);
+    transition: transform 0.6s ease;
+}
+
+.nameplate-dir-left.visible {
+    transform: translateX(0);
+}
