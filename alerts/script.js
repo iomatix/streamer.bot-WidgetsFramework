@@ -234,16 +234,17 @@ const AlertQueue = {
 	 * Processes the queue depending on ALERT_MODE.
 	 */
 	process() {
+		// Stacked mode: fire everything, each alert zarządza swoim lifecycle
 		if (ALERT_MODE === "stacked") {
-			const DISPLAY_TIME = 5000;
-			const EXIT_TIME = 500;
-
-			setTimeout(() => {
-				el.classList.add("exit");
-				setTimeout(() => el.remove(), EXIT_TIME);
-			}, DISPLAY_TIME);
+			while (this.queue.length > 0) {
+				const next = this.queue.shift();
+				Renderer.showAlert(next);
+			}
+			return;
 		}
-		else if (ALERT_MODE === "classic") {
+
+		// Classic mode: jeden alert naraz, kolejka
+		if (ALERT_MODE === "classic") {
 			if (this.isShowing) return;
 			if (this.queue.length === 0) return;
 
@@ -253,7 +254,7 @@ const AlertQueue = {
 				this.isShowing = false;
 				this.process();
 			});
-		} 
+		}
 	}
 };
 
@@ -319,12 +320,6 @@ const Renderer = {
 		if (!container) return;
 
 		const el = this.buildAlertElement(alert);
-
-		// Apply animation + direction classes
-		el.classList.add("alert-item");
-		el.classList.add(`anim-${ALERT_ANIMATION}`);
-		el.classList.add(`dir-${ALERT_DIRECTION}`);
-
 		container.appendChild(el);
 
 		// Force reflow to ensure CSS animations trigger
@@ -332,16 +327,15 @@ const Renderer = {
 
 		el.classList.add("visible");
 
-		// If in index/list mode → DO NOT auto-remove
+		// If we are in index/list mode → don't remove
 		if (PARAM_INDEX !== null || PARAM_LIST !== null) {
 			return;
 		}
 
-		// Classic mode: show one at a time
-		if (ALERT_MODE === "classic") {
-			const DISPLAY_TIME = 5000;
-			const EXIT_TIME = 500;
+		const DISPLAY_TIME = 5000;
+		const EXIT_TIME = 500;
 
+		if (ALERT_MODE === "classic") {
 			setTimeout(() => {
 				el.classList.add("exit");
 				setTimeout(() => {
@@ -351,18 +345,12 @@ const Renderer = {
 					}
 				}, EXIT_TIME);
 			}, DISPLAY_TIME);
-
-			return;
-		}
-
-		// Stacked mode: show many, each with its own timeout
-		if (ALERT_MODE === "stacked") {
-			const DISPLAY_TIME = 5000;
-			const EXIT_TIME = 500;
-
+		} else if (ALERT_MODE === "stacked") {
 			setTimeout(() => {
 				el.classList.add("exit");
-				setTimeout(() => el.remove(), EXIT_TIME);
+				setTimeout(() => {
+					el.remove();
+				}, EXIT_TIME);
 			}, DISPLAY_TIME);
 		}
 	},
@@ -373,9 +361,16 @@ const Renderer = {
 	buildAlertElement(alert) {
 		const el = document.createElement("div");
 		el.classList.add("alert-item");
-		if (PARAM_THEME_MODE === "platform") {
+
+		// Platform theme (only in platform mode)
+		if (PARAM_THEME_MODE === "platform" && alert.platform) {
 			el.classList.add(`platform-${alert.platform}`);
 		}
+
+		// Animations + direction
+		el.classList.add(`anim-${ALERT_ANIMATION}`);
+		el.classList.add(`dir-${ALERT_DIRECTION}`);
+
 		el.classList.add(`type-${alert.type}`);
 		if (alert.subtype) {
 			el.classList.add(`subtype-${alert.subtype}`);
