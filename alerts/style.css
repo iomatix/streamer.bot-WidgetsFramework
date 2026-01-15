@@ -92,6 +92,7 @@ html, body {
     padding: var(--alert-padding);
     border-radius: var(--alert-radius);
     max-width: var(--alert-max-width);
+    color: #fff;
 
     /* Glassmorphism */
     background: var(--alert-bg);
@@ -231,6 +232,12 @@ html, body {
     color: #fff;
     box-shadow: 0 0 18px #5d192a55;
 }
+
+/* Neutral theme fallback text color */
+.alert-item:not([class*="platform-"]) {
+    color: #fff;
+}
+
 
 /* ============================================
    DIRECTION ANIMATIONS
