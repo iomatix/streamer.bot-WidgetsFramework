@@ -28,7 +28,7 @@ function buildUrl(loopOverride = null) {
 
     if (avatarUrl.value.trim() !== "") {
         params.set("avatarUrl", avatarUrl.value.trim());
-    }
+    }       
 
     if (customLogo.value.trim() !== "") {
         params.set("customLogo", customLogo.value.trim());

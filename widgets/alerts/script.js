@@ -4,6 +4,10 @@
  * Author: Mateusz + Copilot
  ****************************************************/
 
+import { GetAvatar } from "../../shared/helpers.js";
+import { PLATFORM_ICONS } from "../../shared/platforms.js";
+import { PLATFORM_COLORS } from "../../shared/platforms.js";   
+
 /* ================================
  * 1. CONFIGURATION
  * ================================ */
@@ -141,6 +145,7 @@ function applyTheme() {
 // Apply theme on load
 window.addEventListener("load", applyTheme);
 
+// TODO: move to shared: uem.js
 /* ================================
  * 3. UNIFIED EVENT MODEL (UEM)
  * ================================ */
@@ -428,6 +433,7 @@ const Renderer = {
  * 6. STREAMER.BOT CLIENT
  * ================================ */
 
+// TODO: Use shared/sb-client.js
 const client = new StreamerbotClient({
 	host: SB_SERVER_ADDRESS,
 	port: SB_SERVER_PORT,
@@ -1753,7 +1759,7 @@ window.addEventListener("message", (event) => {
 /****************************************************
  * WIDGET API (Public Interface)
  ****************************************************/
-
+// TODO: Move to shared
 window.WidgetAPI = {
     /** Returns the raw event buffer (unfiltered) */
     getBuffer() {

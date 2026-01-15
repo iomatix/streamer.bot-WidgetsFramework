@@ -16,6 +16,7 @@ document.getElementById("sim-send").onclick = () => {
     const event = generateTestEvent(platform, type);
 
     const frame = getPreviewFrame();
+    if (!frame || !frame.contentWindow) { console.warn("Preview frame not ready yet"); return; }
     frame.contentWindow.postMessage({
         widget: "alerts",
         event
@@ -46,6 +47,7 @@ document.getElementById("send-json").onclick = () => {
     try {
         const event = JSON.parse(text);
         const frame = getPreviewFrame();
+        if (!frame || !frame.contentWindow) { console.warn("Preview frame not ready yet"); return; }
         frame.contentWindow.postMessage({
             widget: "alerts",
             event
@@ -61,6 +63,7 @@ document.getElementById("send-json").onclick = () => {
 
 function reloadIframe() {
     const frame = getPreviewFrame();
+    if (!frame || !frame.contentWindow) { console.warn("Preview frame not ready yet"); return; }
 
     const url = new URL("/widgets/alerts/", window.location.origin);
 
@@ -124,6 +127,7 @@ document.getElementById("stress-test").onclick = runStressTest;
 
 function runStressTest() {
     const frame = getPreviewFrame();
+    if (!frame || !frame.contentWindow) { console.warn("Preview frame not ready yet"); return; }
 
     const platforms = [
         "twitch", "youtube", "kick", "tiktok",
@@ -181,6 +185,7 @@ function runStressTest() {
 document.getElementById("apply-live-css").onclick = () => {
     const css = document.getElementById("live-css-editor").value;
     const frame = getPreviewFrame();
+    if (!frame || !frame.contentWindow) { console.warn("Preview frame not ready yet"); return; }
 
     frame.contentWindow.postMessage({
         widget: "alerts",

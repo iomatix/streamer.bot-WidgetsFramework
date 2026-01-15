@@ -29,6 +29,8 @@ body {
 
 /* Settings panel */
 #settingsPanel {
+    display: flex;
+    flex-direction: column;
     flex: 1 1 300px;
     min-width: 280px;
     background: #1a1a1a;
@@ -40,6 +42,8 @@ body {
     overflow-y: auto;
     max-height: 100%;
 }
+
+#settingsPanel iframe { flex: 1; height: 100%; min-height: 100%; }
 
 /* Preview panel */
 #previewPanel {
