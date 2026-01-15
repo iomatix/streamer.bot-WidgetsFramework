@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Widget Test Harness</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header id="topbar">
+        <select id="widgetSelect">
+            <option value="alerts">Alerts</option>
+            <option value="nameplate">Nameplate</option>
+        </select>
+
+        <button id="reloadBtn">Reload</button>
+        <button id="openBtn">Open in new tab</button>
+    </header>
+
+    <main id="workspace">
+        <section id="settingsPanel">
+            <!-- dynamic widget settings will load here -->
+        </section>
+
+        <section id="previewPanel">
+            <iframe id="previewFrame"></iframe>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

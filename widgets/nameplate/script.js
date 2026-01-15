@@ -1,13 +1,10 @@
-// Simple platform icon map – dostosuj ścieżki do swoich plików
-const PLATFORM_ICONS = {
-    twitch: "icons/platforms/twitch.png",
-    youtube: "icons/platforms/youtube.png",
-    kick: "icons/platforms/kick.png"
-};
+import { GetAvatar } from "../../shared/helpers.js";
+import { PLATFORM_ICONS } from "../../shared/platforms.js";
+import { PLATFORM_COLORS } from "../../shared/platforms.js";   
 
 // Default config
 const DEFAULTS = {
-    variant: "platform",      // na razie tylko platform → Reverse = platform logo, Front = avatar + username
+    variant: "platform",      // platform | avatar | custom
     direction: "left",        // left | right | top | bottom
     flip: "Y",                // Y | X
     duration: 3000,           // ms card visible
@@ -15,9 +12,11 @@ const DEFAULTS = {
     loop: true,
     username: "Cool User",
     avatarUrl: null,
+    customLogo: null,
     platform: "twitch"
 };
 
+// Read URL parameters
 function getParams() {
     const url = new URL(window.location.href);
     const p = url.searchParams;
@@ -32,6 +31,7 @@ function getParams() {
     if (p.has("loop")) cfg.loop = p.get("loop").toLowerCase() === "true";
     if (p.has("username")) cfg.username = p.get("username");
     if (p.has("avatarUrl")) cfg.avatarUrl = p.get("avatarUrl");
+    if (p.has("customLogo")) cfg.customLogo = p.get("customLogo");
     if (p.has("platform")) cfg.platform = p.get("platform").toLowerCase();
 
     if (!PLATFORM_ICONS[cfg.platform]) {
@@ -41,11 +41,22 @@ function getParams() {
     return cfg;
 }
 
-async function loadAvatar(url) {
-    if (!url) return null;
-    return url;
+// Intelligent avatar loader
+async function loadAvatar(config) {
+    // 1. If avatarUrl param exists → use it
+    if (config.avatarUrl) return config.avatarUrl;
+
+    // 2. If variant != avatar → do not fetch
+    if (config.variant !== "avatar") return null;
+
+    // 3. Only Twitch supports GetAvatar reliably
+    if (config.platform !== "twitch") return null;
+
+    // 4. Fetch Twitch avatar
+    return await GetAvatar(config.username, "twitch");
 }
 
+// Build DOM for nameplate
 function createNameplateDOM(config, avatarUrl) {
     const container = document.getElementById("nameplate-container");
     container.innerHTML = "";
@@ -56,19 +67,32 @@ function createNameplateDOM(config, avatarUrl) {
     const card = document.createElement("div");
     card.className = "nameplate-card " + (config.flip === "X" ? "flip-x" : "flip-y");
 
+    // BACK (reverse)
     const back = document.createElement("div");
     back.className = "nameplate-face nameplate-back";
-    back.innerHTML = `<img src="${PLATFORM_ICONS[config.platform]}" class="platform-logo">`;
 
+    if (config.variant === "custom" && config.customLogo) {
+        back.innerHTML = `<img src="${config.customLogo}" class="platform-logo">`;
+    } else {
+        back.innerHTML = `<img src="${PLATFORM_ICONS[config.platform]}" class="platform-logo">`;
+    }
+
+    // FRONT (face)
     const front = document.createElement("div");
     front.className = "nameplate-face nameplate-front";
 
-    const avatarHtml = avatarUrl
-        ? `<img src="${avatarUrl}" class="avatar">`
-        : `<img src="${PLATFORM_ICONS[config.platform]}" class="platform-logo small">`;
+    let frontIcon = "";
+
+    if (config.variant === "avatar" && avatarUrl) {
+        frontIcon = `<img src="${avatarUrl}" class="avatar">`;
+    } else if (config.variant === "custom" && config.customLogo) {
+        frontIcon = `<img src="${config.customLogo}" class="platform-logo small">`;
+    } else {
+        frontIcon = `<img src="${PLATFORM_ICONS[config.platform]}" class="platform-logo small">`;
+    }
 
     front.innerHTML = `
-        ${avatarHtml}
+        ${frontIcon}
         <span class="username">${config.username}</span>
     `;
 
@@ -80,17 +104,21 @@ function createNameplateDOM(config, avatarUrl) {
     return { plate, card };
 }
 
+// Animate one cycle
 function animateCycle(config, plate, card) {
     const flipClass = config.flip === "X" ? "flipped-x" : "flipped-y";
 
+    // Slide-in
     requestAnimationFrame(() => {
         plate.classList.add("visible");
     });
 
+    // Flip to front
     const flipTimeout = setTimeout(() => {
         card.classList.add(flipClass);
     }, 600);
 
+    // Flip back + slide-out
     const exitTimeout = setTimeout(() => {
         card.classList.remove(flipClass);
         plate.classList.remove("visible");
@@ -99,9 +127,10 @@ function animateCycle(config, plate, card) {
     return { flipTimeout, exitTimeout };
 }
 
+// Loop logic
 async function runLoop() {
     const config = getParams();
-    const avatarUrl = await loadAvatar(config.avatarUrl);
+    const avatarUrl = await loadAvatar(config);
 
     async function cycle() {
         const { plate, card } = createNameplateDOM(config, avatarUrl);

@@ -1,9 +1,8 @@
-console.log("Test Harness Loaded");
+console.log("Alerts Test Panel Loaded");
 
-// Access widget inside iframe
-function getWidgetAPI() {
-    const frame = document.getElementById("widget-frame");
-    return frame.contentWindow.WidgetAPI;
+// Access previewFrame in test-harness
+function getPreviewFrame() {
+    return parent.document.getElementById("previewFrame");
 }
 
 /****************************************************
@@ -16,8 +15,11 @@ document.getElementById("sim-send").onclick = () => {
 
     const event = generateTestEvent(platform, type);
 
-    const api = getWidgetAPI();
-    api.pushEvent(event);
+    const frame = getPreviewFrame();
+    frame.contentWindow.postMessage({
+        widget: "alerts",
+        event
+    }, "*");
 };
 
 function generateTestEvent(platform, type) {
@@ -43,41 +45,34 @@ document.getElementById("send-json").onclick = () => {
     const text = document.getElementById("json-input").value;
     try {
         const event = JSON.parse(text);
-        const api = getWidgetAPI();
-        api.pushEvent(event);
+        const frame = getPreviewFrame();
+        frame.contentWindow.postMessage({
+            widget: "alerts",
+            event
+        }, "*");
     } catch (err) {
         alert("Invalid JSON");
     }
 };
 
 /****************************************************
- * THEME SWITCHER
+ * THEME + RENDER MODE
  ****************************************************/
 
 function reloadIframe() {
-    const frame = document.getElementById("widget-frame");
+    const frame = getPreviewFrame();
 
-    // Build base URL
-    const url = new URL("../alerts/index.html", window.location.href);
+    const url = new URL("/widgets/alerts/", window.location.origin);
 
-    // Always enable debug panel
     url.searchParams.set("debug", "1");
 
-    // Theme mode
     const themeMode = document.getElementById("theme-mode").value;
     url.searchParams.set("themeMode", themeMode);
 
-    // Theme preset
     const theme = document.getElementById("theme-select").value;
     if (theme) url.searchParams.set("theme", theme);
-    else url.searchParams.delete("theme");
 
-    // Render mode
     const mode = document.getElementById("render-mode").value;
-
-    // Clear previous render params
-    url.searchParams.delete("index");
-    url.searchParams.delete("list");
 
     if (mode === "index") {
         const idx = document.getElementById("render-index").value;
@@ -89,9 +84,9 @@ function reloadIframe() {
         url.searchParams.set("list", count);
     }
 
-    // Apply final URL
     frame.src = url.toString();
 }
+
 document.getElementById("apply-theme").onclick = reloadIframe;
 document.getElementById("apply-render").onclick = reloadIframe;
 
@@ -122,17 +117,13 @@ renderModeSelect.onchange = () => {
 };
 
 /****************************************************
- * STRESS TEST (100 events in rapid succession)
+ * STRESS TEST
  ****************************************************/
 
 document.getElementById("stress-test").onclick = runStressTest;
 
 function runStressTest() {
-    const api = getWidgetAPI();
-    if (!api) {
-        console.error("WidgetAPI not available yet. Please wait a moment and try again");
-        return;
-    }
+    const frame = getPreviewFrame();
 
     const platforms = [
         "twitch", "youtube", "kick", "tiktok",
@@ -147,7 +138,7 @@ function runStressTest() {
 
     let count = 0;
     const total = 100;
-    const delay = 30; // ms between events
+    const delay = 30;
 
     console.log("Running stress test…");
 
@@ -174,7 +165,25 @@ function runStressTest() {
             raw: { stress: true }
         };
 
-        api.pushEvent(event);
+        frame.contentWindow.postMessage({
+            widget: "alerts",
+            event
+        }, "*");
+
         count++;
     }, delay);
 }
+
+/****************************************************
+ * LIVE CSS EDITOR
+ ****************************************************/
+
+document.getElementById("apply-live-css").onclick = () => {
+    const css = document.getElementById("live-css-editor").value;
+    const frame = getPreviewFrame();
+
+    frame.contentWindow.postMessage({
+        widget: "alerts",
+        css
+    }, "*");
+};

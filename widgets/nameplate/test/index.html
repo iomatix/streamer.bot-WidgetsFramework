@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nameplate Test Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="panel">
+
+        <h2>Nameplate – Test Panel</h2>
+
+        <div class="field">
+            <label>Username</label>
+            <input id="username" type="text" value="CoolUser">
+        </div>
+
+        <div class="field">
+            <label>Platform</label>
+            <select id="platform">
+                <option value="twitch">Twitch</option>
+                <option value="youtube">YouTube</option>
+                <option value="kick">Kick</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Variant</label>
+            <select id="variant">
+                <option value="platform">Platform (reverse=logo, front=avatar)</option>
+                <option value="avatar">Avatar (reverse=logo, front=avatar)</option>
+                <option value="custom">Custom Logo</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Direction</label>
+            <select id="direction">
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+                <option value="top">Top</option>
+                <option value="bottom">Bottom</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Flip Axis</label>
+            <select id="flip">
+                <option value="Y">Y (horizontal flip)</option>
+                <option value="X">X (vertical flip)</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label>Duration (ms)</label>
+            <input id="duration" type="number" value="3000">
+        </div>
+
+        <div class="field">
+            <label>Delay (ms)</label>
+            <input id="delay" type="number" value="2000">
+        </div>
+
+        <div class="field checkbox">
+            <label><input id="loop" type="checkbox" checked> Loop</label>
+        </div>
+
+        <div class="field">
+            <label>Avatar URL (optional)</label>
+            <input id="avatarUrl" type="text" placeholder="https://...">
+        </div>
+
+        <div class="field">
+            <label>Custom Logo (optional)</label>
+            <input id="customLogo" type="text" placeholder="path/to/logo.png">
+        </div>
+
+        <div class="buttons">
+            <button id="applyBtn">Apply</button>
+            <button id="triggerBtn">Trigger Once</button>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
