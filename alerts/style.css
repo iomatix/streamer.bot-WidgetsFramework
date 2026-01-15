@@ -1,10 +1,75 @@
-html,
-body {
-    font-family: 'Inter', sans-serif;
+/* ============================================
+   GLOBAL THEME VARIABLES
+   ============================================ */
+
+:root {
+    /* Layout */
+    --alert-max-width: 520px;
+    --alert-padding: 18px 24px;
+    --alert-gap: 14px;
+    --alert-radius: 20px;
+
+    /* Glassmorphism */
+    --alert-bg: rgba(0, 0, 0, 0.35);
+    --alert-blur: 14px;
+    --alert-border: rgba(255, 255, 255, 0.12);
+
+    /* Shadows */
+    --alert-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+
+    /* Text */
+    --font-family: 'Inter', sans-serif;
+    --username-size: 1.35em;
+    --message-size: 1em;
+
+    /* Avatar */
+    --avatar-size: 64px;
+    --avatar-radius: 14px;
+
+    /* Platform Accent Colors */
+    --twitch-1: #9146FF;
+    --twitch-2: #5a2dbf;
+
+    --youtube-1: #FF0000;
+    --youtube-2: #b30000;
+
+    --kick-1: #53fc18;
+    --kick-2: #1e7a00;
+
+    --tiktok-1: #000000;
+    --tiktok-2: #262626;
+
+    --kofi-1: #29ABE0;
+    --kofi-2: #0b7aa8;
+
+    --streamelements-1: #1E90FF;
+    --streamelements-2: #0a112a;
+
+    --streamlabs-1: #00ffcc;
+    --streamlabs-2: #00997f;
+
+    --patreon-1: #FF424D;
+    --patreon-2: #b81f27;
+
+    --fourthwall-1: #466edb;
+    --fourthwall-2: #1c3a8f;
+
+    --tipeee-1: #5d192a;
+    --tipeee-2: #120e23;
 }
 
-/* === ALERT CONTAINER === */
-/* Handles stacking, positioning and layout */
+/* ============================================
+   GLOBAL RESET
+   ============================================ */
+
+html, body {
+    font-family: var(--font-family);
+}
+
+/* ============================================
+   ALERT CONTAINER
+   ============================================ */
+
 #alert-container {
     position: absolute;
     bottom: 5%;
@@ -15,191 +80,183 @@ body {
     pointer-events: none;
 }
 
-/* === ALERT BUBBLE === */
-/* Premium glassmorphism + soft glow + smooth transitions */
-.alert {
+/* ============================================
+   ALERT ITEM (Unified DOM)
+   ============================================ */
+
+.alert-item {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 14px;
-    padding: 18px 24px;
-    border-radius: 20px;
+    gap: var(--alert-gap);
+    padding: var(--alert-padding);
+    border-radius: var(--alert-radius);
+    max-width: var(--alert-max-width);
 
-    /* Glass effect */
-    background: rgba(0, 0, 0, 0.35);
-    backdrop-filter: blur(14px);
+    /* Glassmorphism */
+    background: var(--alert-bg);
+    backdrop-filter: blur(var(--alert-blur));
+    border: 1px solid var(--alert-border);
 
-    /* Soft shadow */
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+    /* Shadow */
+    box-shadow: var(--alert-shadow);
 
-    /* Subtle border for premium finish */
-    border: 1px solid rgba(255, 255, 255, 0.12);
-
-    max-width: 520px;
-
+    /* Animation base */
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.55s ease, transform 0.55s ease;
 }
 
-.alert.visible {
+.alert-item.visible {
     opacity: 1;
     transform: translateY(0);
 }
 
-.alert.no-avatar .text {
-    margin-left: 0;
-}
-
-/* === GLASS REFLECTION === */
-/* Adds a subtle premium highlight */
-.alert::before {
+/* Glass reflection */
+.alert-item::before {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     border-radius: inherit;
     background: linear-gradient(120deg, rgba(255,255,255,0.08), transparent 60%);
     pointer-events: none;
 }
 
-/* === AVATAR === */
-/* Smooth scale-in + shadow */
-.avatar {
-    width: 64px;
-    height: 64px;
-    border-radius: 14px;
+/* ============================================
+   AVATAR
+   ============================================ */
+
+.alert-avatar-wrapper {}
+
+.alert-avatar {
+    width: var(--avatar-size);
+    height: var(--avatar-size);
+    border-radius: var(--avatar-radius);
     object-fit: cover;
-
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.45);
-
-    opacity: 1;
-    transform: scale(1);
-    transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-.avatar.hidden {
-    opacity: 0;
-    transform: scale(0.85);
-    display: none;
-}
+/* ============================================
+   TEXT CONTENT
+   ============================================ */
 
-/* === TEXT === */
-.text {
+.alert-content {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.username {
-    font-size: 1.35em;
+.alert-username {
+    font-size: var(--username-size);
     font-weight: 700;
     letter-spacing: 0.3px;
 }
 
-.message {
-    font-size: 1em;
-    font-weight: 400;
+.alert-description {
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+.alert-attribute {
+    font-size: 0.95em;
+    opacity: 0.9;
+}
+
+.alert-message {
+    font-size: var(--message-size);
     line-height: 1.35em;
     opacity: 0.92;
 }
 
-/* === PLATFORM COLORS (OFFICIAL BRAND GUIDELINES) === */
-/* Each includes a soft glow for premium look */
+/* ============================================
+   PLATFORM THEMES (via classes)
+   ============================================ */
 
-/* TWITCH */
-.alert.twitch {
-    background: linear-gradient(135deg, #9146FF, #5a2dbf);
+.alert-item.platform-twitch {
+    background: linear-gradient(135deg, var(--twitch-1), var(--twitch-2));
     color: #fff;
     box-shadow: 0 0 18px #9146FF55;
 }
 
-/* YOUTUBE */
-.alert.youtube {
-    background: linear-gradient(135deg, #FF0000, #b30000);
+.alert-item.platform-youtube {
+    background: linear-gradient(135deg, var(--youtube-1), var(--youtube-2));
     color: #fff;
     box-shadow: 0 0 18px #FF000055;
 }
 
-/* KICK */
-.alert.kick {
-    background: linear-gradient(135deg, #53fc18, #1e7a00);
+.alert-item.platform-kick {
+    background: linear-gradient(135deg, var(--kick-1), var(--kick-2));
     color: #0a0a0a;
     box-shadow: 0 0 18px #53fc1855;
 }
 
-/* TIKTOK */
-.alert.tiktok {
-    background: linear-gradient(135deg, #000000, #262626);
+.alert-item.platform-tiktok {
+    background: linear-gradient(135deg, var(--tiktok-1), var(--tiktok-2));
     color: #fff;
     box-shadow: 0 0 18px #EE1D5255;
 }
 
-/* KO-FI */
-.alert.kofi {
-    background: linear-gradient(135deg, #29ABE0, #0b7aa8);
+.alert-item.platform-kofi {
+    background: linear-gradient(135deg, var(--kofi-1), var(--kofi-2));
     color: #fff;
     box-shadow: 0 0 18px #29ABE055;
 }
 
-/* STREAMELEMENTS */
-.alert.streamelements {
-    background: linear-gradient(135deg, #1E90FF, #0a112a);
+.alert-item.platform-streamelements {
+    background: linear-gradient(135deg, var(--streamelements-1), var(--streamelements-2));
     color: #fff;
     box-shadow: 0 0 18px #1E90FF55;
 }
 
-/* STREAMLABS */
-.alert.streamlabs {
-    background: linear-gradient(135deg, #00ffcc, #00997f);
+.alert-item.platform-streamlabs {
+    background: linear-gradient(135deg, var(--streamlabs-1), var(--streamlabs-2));
     color: #0a0a0a;
     box-shadow: 0 0 18px #00ffcc55;
 }
 
-/* PATREON */
-.alert.patreon {
-    background: linear-gradient(135deg, #FF424D, #b81f27);
+.alert-item.platform-patreon {
+    background: linear-gradient(135deg, var(--patreon-1), var(--patreon-2));
     color: #fff;
     box-shadow: 0 0 18px #FF424D55;
 }
 
-/* FOURTHWALL */
-.alert.fourthwall {
-    background: linear-gradient(135deg, #466edb, #1c3a8f);
+.alert-item.platform-fourthwall {
+    background: linear-gradient(135deg, var(--fourthwall-1), var(--fourthwall-2));
     color: #fff;
     box-shadow: 0 0 18px #466edb55;
 }
 
-/* TIPEEE STREAM */
-.alert.tipeeestream {
-    background: linear-gradient(135deg, #5d192a, #120e23);
+.alert-item.platform-tipeeestream {
+    background: linear-gradient(135deg, var(--tipeee-1), var(--tipeee-2));
     color: #fff;
     box-shadow: 0 0 18px #5d192a55;
 }
 
-/* === DIRECTION ANIMATIONS === */
-.alert.dir-bottom-up { transform: translateY(20px); }
-.alert.dir-bottom-up.visible { transform: translateY(0); }
+/* ============================================
+   DIRECTION ANIMATIONS
+   ============================================ */
 
-.alert.dir-top-down { transform: translateY(-20px); }
-.alert.dir-top-down.visible { transform: translateY(0); }
+.alert-item.dir-bottom-up { transform: translateY(20px); }
+.alert-item.dir-bottom-up.visible { transform: translateY(0); }
 
-.alert.dir-left-right { transform: translateX(-40px); }
-.alert.dir-left-right.visible { transform: translateX(0); }
+.alert-item.dir-top-down { transform: translateY(-20px); }
+.alert-item.dir-top-down.visible { transform: translateY(0); }
 
-.alert.dir-right-left { transform: translateX(40px); }
-.alert.dir-right-left.visible { transform: translateX(0); }
+.alert-item.dir-left-right { transform: translateX(-40px); }
+.alert-item.dir-left-right.visible { transform: translateX(0); }
 
-/* === ENTRY ANIMATIONS === */
-.alert.anim-slide-fade { opacity: 0; transform: translateY(20px); }
-.alert.anim-slide-fade.visible { opacity: 1; transform: translateY(0); }
+.alert-item.dir-right-left { transform: translateX(40px); }
+.alert-item.dir-right-left.visible { transform: translateX(0); }
 
-.alert.anim-fade { opacity: 0; }
-.alert.anim-fade.visible { opacity: 1; }
+/* ============================================
+   ENTRY ANIMATIONS
+   ============================================ */
 
-.alert.anim-scale { opacity: 0; transform: scale(0.8); }
-.alert.anim-scale.visible { opacity: 1; transform: scale(1); }
+.alert-item.anim-slide-fade { opacity: 0; transform: translateY(20px); }
+.alert-item.anim-slide-fade.visible { opacity: 1; transform: translateY(0); }
 
-.alert.pre-anim { opacity: 0; }
+.alert-item.anim-fade { opacity: 0; }
+.alert-item.anim-fade.visible { opacity: 1; }
+
+.alert-item.anim-scale { opacity: 0; transform: scale(0.8); }
+.alert-item.anim-scale.visible { opacity: 1; transform: scale(1); }
