@@ -25,7 +25,7 @@ const ALERT_ANIMATION = "scale";
 // Optional tag filter from URL (?tag=...)
 const PARAM_TAG = getParam("tag"); // single tag for now
 
-// Theme mode: "platform" or "custom"
+// Theme mode: "platform" or "neutral"
 const PARAM_THEME_MODE = getParam("themeMode") || "platform";
 
 // Platform toggles (keep as runtime feature flags)
@@ -282,7 +282,11 @@ const Renderer = {
 		const filtered = filterEvents(eventBuffer);
 		if (filtered.length === 0) return;
 
-		const idx = Math.min(Math.max(0, PARAM_INDEX), filtered.length - 1);
+		const idx = PARAM_INDEX;
+		if (idx < 0 || idx >= filtered.length) {
+			return; // out of range → nic nie renderujemy
+		}
+
 		const alert = filtered[idx];
 		if (!alert) return;
 

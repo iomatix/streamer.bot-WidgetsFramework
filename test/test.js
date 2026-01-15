@@ -63,8 +63,8 @@ function reloadIframe() {
     // Always enable debug panel
     url.searchParams.set("debug", "1");
 
-    // Theme mode (neutral or platform)
-    url.searchParams.set("themeMode", "neutral");
+    // Theme mode – for now always platform (neutral will be added as an option later)
+    url.searchParams.set("themeMode", "platform");
 
     // Theme preset
     const theme = document.getElementById("theme-select").value;
