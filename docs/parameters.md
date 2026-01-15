@@ -1,125 +1,106 @@
 # URL Parameters – Streamer.bot Widgets Framework
 
-This document defines **all supported URL parameters** and how they influence widget behavior.
-
-The parameter system is intentionally simple: parameters control **which events are selected** and **how they are rendered**, without changing the underlying framework logic.
+This document defines all supported **URL parameters** and how they influence widget behavior.  
+Widgets are **stateless** and fully controlled by URL parameters.
 
 ---
 
 ## Core Parameters
 
-### `index`
+### index
+Displays **a single event** from the event buffer.  
+0 refers to the most recent event.  
+Disables queue logic and timing.
 
-Display a **single event** from the event buffer.
+Examples:
+- ?index=0
+- ?index=3
 
-- `0` = most recent event
-- Disables queue logic
+### list
+Displays the **N most recent events** from the buffer.
 
-**Examples:**
-```
-?index=0
-?index=3
-```
+Examples:
+- ?list=6
+- ?list=12
 
----
+### platform
+Filters events by their **source platform**.
 
-### `list`
+Examples:
+- ?platform=twitch
+- ?platform=youtube
+- ?platform=kick
 
-Display the **N most recent events** from the buffer.
+### type
+Filters events by the **main event category**.
 
-**Examples:**
-```
-?list=6
-?list=12
-```
+Examples:
+- ?type=sub
+- ?type=donation
+- ?type=raid
+- ?type=cheer
 
----
+### tag
+Filters events by a specific **semantic tag**.
 
-### `platform`
+Tags may represent:
+- subtype (prime, gift)
+- payment method (bits, superchat)
+- context (raid, reward)
 
-Filter events by their source platform.
+Examples:
+- ?tag=gift
+- ?tag=prime
+- ?tag=bits
 
-**Examples:**
-```
-?platform=twitch
-?platform=youtube
-?platform=kick
-```
+### excludeTag
+Excludes events containing a specific tag.
 
----
-
-### `type`
-
-Filter by the main event category.
-
-**Examples:**
-```
-?type=sub
-?type=donation
-?type=raid
-?type=cheer
-```
-
----
-
-### `tag`
-
-Filter by a specific semantic tag.
-
-Tags come from the unified event model and may represent:
-- subtype (`prime`, `gift`)
-- payment method (`bits`, `superchat`)
-- context (`raid`, `reward`)
-
-**Examples:**
-```
-?tag=gift
-?tag=prime
-?tag=bits
-```
+Example:
+- ?excludeTag=test
 
 ---
 
 ## Combining Parameters
 
-Parameters can be freely combined to create highly specific widgets.
+Parameters can be **freely combined**.
 
-**Examples:**
-```
-?list=5&platform=twitch&type=sub&tag=gift
-?list=10&platform=youtube
-?index=0&platform=twitch
-?list=8&type=donation
-```
+Examples:
+- ?list=5&platform=twitch&type=sub&tag=gift
+- ?list=10&platform=youtube
+- ?index=0&platform=twitch
+- ?list=8&type=donation
 
-The filtering order is:
-1. Platform
-2. Type
-3. Tag
-4. Rendering mode (`index` / `list` / default)
+**Filtering order:**
+1. platform
+2. type
+3. tag
+4. excludeTag
+5. Rendering mode (index, list, or default)
 
 ---
 
 ## Default Behavior
 
-If **no rendering parameter** is provided:
+If **no rendering parameter** (index or list) is provided:
 - The widget runs in **normal alert mode**
-- Events are displayed in real time using the alert queue
+- Events are displayed **in real time** using the alert queue
 
 ---
 
-## Planned Parameters
+## Planned Parameters (Not Yet Implemented)
 
-The following parameters are **designed but not yet implemented**:
-
-- `tag=a,b,c` – multi-tag filtering (OR)
-- `excludeTag=xyz` – exclude events with specific tags
-- `avatar=false` – hide avatar completely
-- `animation=fade` – force a specific entrance animation
-- `direction=left` – control animation direction
-- `theme=dark` – force light / dark / custom theme
+- tag=a,b,c          → Multi-tag filtering (OR)
+- avatar=false       → Hide avatar completely
+- animation=fade     → Force a specific entrance animation
+- direction=left     → Control animation direction
+- theme=dark         → Force a specific theme preset
 
 ---
 
-URL parameters are intentionally stateless, making widgets easy to embed in OBS, Streamlabs Desktop, or any browser source without additional configuration.
+## Notes
 
+- URL parameters are **intentionally stateless**.
+- Widgets can be embedded in **OBS**, **Streamlabs Desktop**, or any browser source without additional configuration.
+
+---

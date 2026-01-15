@@ -12,16 +12,16 @@ All events are normalized into the following structure:
 
 ```js
 {
-  platform:    "twitch",          // source platform
-  type:        "sub",             // high-level event type
-  subtype:     "prime",           // optional specialization
-  tags:        ["sub", "prime", "twitch"],
-  username:    "cool_viewer123",
-  description: "Gifted 5 subs to the community!",
-  amount:      5,                  // numeric value (if applicable)
-  message:     "Thanks for the stream!",
-  avatar:      "https://...avatar.png",
-  raw:         { ... }              // original payload
+  platform,      // source platform (twitch, youtube, kofi, ...)
+  type,          // high-level event type (sub, follow, donation, raid, ...)
+  subtype,       // optional specialization (prime, tier1, gift, ...)
+  tags,          // array of semantic tags
+  username,      // display name of the user
+  description,   // human-readable description
+  attribute,     // numeric or contextual value (amount, months, count)
+  message,       // optional message or chat text
+  avatar,        // avatar URL or fallback
+  raw            // original payload for debugging / extensions
 }
 ```
 
@@ -32,12 +32,29 @@ This model guarantees:
 
 ---
 
+## Supported Platforms Overview
+
+| Platform | Color | Tag |
+|--------|-------|-----|
+| 🟣 **Twitch** | Purple | `twitch` |
+| 🔴 **YouTube** | Red | `youtube` |
+| 🟢 **Kick** | Green | `kick` |
+| 🔵 **Ko-fi** | Blue | `kofi` |
+| 🟦 **StreamElements** | Blue | `streamelements` |
+| 🟦 **Streamlabs** | Blue | `streamlabs` |
+| 🟪 **Fourthwall** | Purple | `fourthwall` |
+| ⚫ **TikTok (TikFinity)** | Black | `tiktok` |
+
+Colored icons are used throughout widgets to make platform origin immediately recognizable.
+
+---
+
 ## Supported Platforms & Events
 
-### Twitch 🟣
+### 🟣 Twitch
 
-| Event Type | Subtype | Tags |
-|-----------|---------|------|
+| Event Type | Subtype | Common Tags |
+|-----------|---------|-------------|
 | Follow | — | `follow`, `twitch` |
 | Cheer | — | `donation`, `bits`, `twitch` |
 | Sub | paid | `sub`, `paid`, `twitch` |
@@ -51,10 +68,10 @@ This model guarantees:
 
 ---
 
-### YouTube 🔴
+### 🔴 YouTube
 
-| Event Type | Subtype | Tags |
-|-----------|---------|------|
+| Event Type | Subtype | Common Tags |
+|-----------|---------|-------------|
 | Super Chat | — | `donation`, `superchat`, `youtube` |
 | Super Sticker | — | `donation`, `supersticker`, `youtube` |
 | New Sponsor | — | `sub`, `membership`, `youtube` |
@@ -62,10 +79,10 @@ This model guarantees:
 
 ---
 
-### Kick 🟢
+### 🟢 Kick
 
-| Event Type | Subtype | Tags |
-|-----------|---------|------|
+| Event Type | Subtype | Common Tags |
+|-----------|---------|-------------|
 | Subscription | — | `sub`, `kick` |
 | Gifted Subs | — | `sub`, `gift`, `kick` |
 | Reward Redeemed | — | `reward`, `kick` |
@@ -74,10 +91,10 @@ This model guarantees:
 
 ---
 
-### Ko-fi 🔵
+### 🔵 Ko-fi
 
-| Event Type | Subtype | Tags |
-|-----------|---------|------|
+| Event Type | Subtype | Common Tags |
+|-----------|---------|-------------|
 | Donation | — | `donation`, `kofi` |
 | Subscription | — | `sub`, `kofi` |
 | Resubscription | — | `sub`, `resub`, `kofi` |
@@ -85,26 +102,26 @@ This model guarantees:
 
 ---
 
-### StreamElements 🟦
+### 🟦 StreamElements
 
-| Event Type | Subtype | Tags |
-|-----------|---------|------|
+| Event Type | Subtype | Common Tags |
+|-----------|---------|-------------|
 | Tip | — | `donation`, `tip`, `streamelements` |
 
 ---
 
-### Streamlabs 🟦
+### 🟦 Streamlabs
 
-| Event Type | Subtype | Tags |
-|-----------|---------|------|
+| Event Type | Subtype | Common Tags |
+|-----------|---------|-------------|
 | Donation | — | `donation`, `streamlabs` |
 
 ---
 
-### Fourthwall 🟪
+### 🟪 Fourthwall
 
-| Event Type | Subtype | Tags |
-|-----------|---------|------|
+| Event Type | Subtype | Common Tags |
+|-----------|---------|-------------|
 | Order | — | `purchase`, `merch`, `fourthwall` |
 | Donation | — | `donation`, `fourthwall` |
 | Subscription | — | `sub`, `fourthwall` |
@@ -114,10 +131,10 @@ This model guarantees:
 
 ---
 
-### TikTok (TikFinity) 🟣
+### ⚫ TikTok (TikFinity)
 
-| Event Type | Subtype | Tags |
-|-----------|---------|------|
+| Event Type | Subtype | Common Tags |
+|-----------|---------|-------------|
 | Gift | — | `donation`, `gift`, `tiktok` |
 | Subscription | — | `sub`, `tiktok` |
 
@@ -143,13 +160,11 @@ streamelements, streamlabs,
 fourthwall, tiktok
 ```
 
-Tags are used for filtering, grouping, styling, and conditional logic across all widgets.
-
 ---
 
 ## Notes
 
-- Tags are **additive** — a single event can contain multiple semantic tags
+- Tags are **additive** — a single event may contain multiple semantic tags
 - Filtering supports single-tag queries: `?tag=donation`
 - Multi-tag filtering (`?tag=a,b,c`) is **planned**
 
