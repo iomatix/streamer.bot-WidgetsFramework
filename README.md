@@ -39,7 +39,7 @@ Designed for streamers, VTubers, and content creators who want full control over
        python run_widget_server.py
 
 3. Add a Browser Source in OBS / Streamlabs Desktop:  
-       http://127.0.0.1:8181/alerts/
+       http://127.0.0.1:8181/widgets/alerts/
 
 ---
 
@@ -49,12 +49,12 @@ The framework is fully controlled using URL parameters. Widgets are stateless an
 
 ### Examples
 
-    /alerts/                     → normal alert mode  
-    /alerts/?index=0             → single most recent event  
-    /alerts/?list=6              → last 6 events  
-    /alerts/?platform=twitch     → Twitch-only events  
-    /alerts/?list=5&type=sub     → last 5 subscription events  
-    /alerts/?list=5&tag=gift     → last 5 gift events  
+    /widgets/alerts/                     → normal alert mode  
+    /widgets/alerts/?index=0             → single most recent event  
+    /widgets/alerts/?list=6              → last 6 events  
+    /widgets/alerts/?platform=twitch     → Twitch-only events  
+    /widgets/alerts/?list=5&type=sub     → last 5 subscription events  
+    /widgets/alerts/?list=5&tag=gift     → last 5 gift events  
 
 Parameters can be freely combined to create custom widgets.
 

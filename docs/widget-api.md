@@ -109,10 +109,10 @@ Custom widgets automatically support **all platforms** and **all event types**.
 Widgets are embedded using a **Browser Source**.
 
 **Examples:**
-- http://127.0.0.1:8181/alerts/?index=0
-- http://127.0.0.1:8181/alerts/?list=6
-- http://127.0.0.1:8181/alerts/?platform=twitch&type=raid
-- http://127.0.0.1:8181/alerts/?list=10&platform=youtube
+- http://127.0.0.1:8181/widgets/alerts/?index=0
+- http://127.0.0.1:8181/widgets/alerts/?list=6
+- http://127.0.0.1:8181/widgets/alerts/?platform=twitch&type=raid
+- http://127.0.0.1:8181/widgets/alerts/?list=10&platform=youtube
 
 Any valid combination of rendering and filtering parameters is supported.
 
