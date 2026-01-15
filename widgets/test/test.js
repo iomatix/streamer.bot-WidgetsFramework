@@ -130,7 +130,7 @@ document.getElementById("stress-test").onclick = runStressTest;
 function runStressTest() {
     const api = getWidgetAPI();
     if (!api) {
-        console.error("WidgetAPI not available yet");
+        console.error("WidgetAPI not available yet. Please wait a moment and try again");
         return;
     }
 
