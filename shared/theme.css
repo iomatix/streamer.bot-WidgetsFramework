@@ -1,0 +1,13 @@
+:root {
+    --glass-bg: rgba(0,0,0,0.35);
+    --glass-blur: 14px;
+    --glass-border: rgba(255,255,255,0.12);
+    --glass-shadow: 0 10px 28px rgba(0,0,0,0.45);
+
+    --radius-lg: 22px;
+    --radius-md: 14px;
+    --radius-sm: 8px;
+
+    --transition-fast: 0.35s ease;
+    --transition-medium: 0.6s ease;
+}

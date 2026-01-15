@@ -1,26 +1,145 @@
+/* ============================================
+   GLOBAL THEME (shared variables)
+   ============================================ */
+
+:root {
+    --np-radius: 22px;
+    --np-blur: 18px;
+    --np-bg: rgba(0,0,0,0.35);
+    --np-border: rgba(255,255,255,0.12);
+    --np-shadow: 0 10px 28px rgba(0,0,0,0.45);
+
+    --np-width: 360px;
+    --np-height: 120px;
+
+    --np-duration: 0.6s;
+}
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+
+#nameplate-container {
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+/* ============================================
+   NAMEPLATE WRAPPER
+   ============================================ */
+
+.nameplate {
+    width: var(--np-width);
+    height: var(--np-height);
+    position: relative;
+    perspective: 1000px;
+
+    opacity: 0;
+    transform: translateX(-200%);
+    transition: opacity var(--np-duration) ease,
+                transform var(--np-duration) ease;
+}
+
+.nameplate.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ============================================
+   CARD (flip)
+   ============================================ */
+
 .nameplate-card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    border-radius: var(--np-radius);
+    background: var(--np-bg);
+    backdrop-filter: blur(var(--np-blur));
+    border: 1px solid var(--np-border);
+    box-shadow: var(--np-shadow);
+
     transform-style: preserve-3d;
-    transition: transform 0.6s ease;
+    transition: transform var(--np-duration) ease;
 }
 
 .nameplate-card.flipped {
     transform: rotateY(180deg);
 }
 
+/* ============================================
+   CARD FACES
+   ============================================ */
+
 .nameplate-face {
     position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     backface-visibility: hidden;
+    border-radius: var(--np-radius);
 }
 
+/* BACK (reverse) */
+.nameplate-back {
+    font-size: 2.4em;
+    opacity: 0.9;
+}
+
+/* FRONT */
 .nameplate-front {
     transform: rotateY(180deg);
+    padding: 0 20px;
+    justify-content: flex-start;
+    gap: 16px;
 }
 
-.nameplate-dir-left {
-    transform: translateX(-200%);
-    transition: transform 0.6s ease;
+/* ============================================
+   PLATFORM LOGOS
+   ============================================ */
+
+.platform-logo {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    opacity: 0.9;
 }
 
-.nameplate-dir-left.visible {
-    transform: translateX(0);
+.platform-logo.small {
+    width: 36px;
+    height: 36px;
+}
+
+/* ============================================
+   TEXT
+   ============================================ */
+
+.username {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+
+/* ============================================
+   PLATFORM COLORS (glow)
+   ============================================ */
+
+.nameplate-platform-twitch .nameplate-card {
+    box-shadow: 0 0 22px #9146FF55;
+}
+
+.nameplate-platform-youtube .nameplate-card {
+    box-shadow: 0 0 22px #FF000055;
+}
+
+.nameplate-platform-kick .nameplate-card {
+    box-shadow: 0 0 22px #53fc1855;
 }
