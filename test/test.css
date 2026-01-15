@@ -1,35 +1,60 @@
 body {
     font-family: Inter, sans-serif;
-    background: #111;
+    background: #0f0f0f;
     color: #eee;
     padding: 20px;
+    display: flex;
+    gap: 30px;
 }
 
-h1 {
-    margin-bottom: 20px;
-}
-
+/* Left panel */
 #controls {
-    background: #222;
+    background: #1a1a1a;
     padding: 20px;
     border-radius: 12px;
     width: 360px;
-    float: left;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid #333;
 }
 
 #controls h2 {
-    margin-top: 20px;
+    margin: 0;
+    font-size: 1.2em;
+    border-bottom: 1px solid #333;
+    padding-bottom: 6px;
+    color: #fff;
+}
+
+#controls label {
+    margin-top: 6px;
+    font-size: 0.9em;
+    opacity: 0.85;
 }
 
 #controls select,
 #controls textarea,
-#controls button {
+#controls button,
+#controls input {
     width: 100%;
-    margin-top: 8px;
+    margin-top: 6px;
     padding: 8px;
     border-radius: 6px;
-    border: none;
+    border: 1px solid #444;
+    background: #111;
+    color: #eee;
     font-size: 14px;
+}
+
+#controls button {
+    background: #333;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#controls button:hover {
+    background: #444;
 }
 
 #controls textarea {
@@ -37,11 +62,21 @@ h1 {
     resize: vertical;
 }
 
+/* Render options box */
+#render-options {
+    margin-top: 10px;
+    padding: 10px;
+    background: #111;
+    border-radius: 8px;
+    border: 1px solid #333;
+}
+
+/* Right side (iframe) */
 #widget-frame {
-    width: 800px;
-    height: 600px;
-    margin-left: 400px;
+    width: 900px;
+    height: 650px;
     border-radius: 12px;
-    overflow: hidden;
+    border: 1px solid #333;
     background: #000;
+    overflow-y: auto;
 }

@@ -63,16 +63,14 @@ function reloadIframe() {
     // Always enable debug panel
     url.searchParams.set("debug", "1");
 
-    // Theme mode – for now always platform (neutral will be added as an option later)
-    url.searchParams.set("themeMode", "platform");
+    // Theme mode
+    const themeMode = document.getElementById("theme-mode").value;
+    url.searchParams.set("themeMode", themeMode);
 
     // Theme preset
     const theme = document.getElementById("theme-select").value;
-    if (theme) {
-        url.searchParams.set("theme", theme);
-    } else {
-        url.searchParams.delete("theme");
-    }
+    if (theme) url.searchParams.set("theme", theme);
+    else url.searchParams.delete("theme");
 
     // Render mode
     const mode = document.getElementById("render-mode").value;
