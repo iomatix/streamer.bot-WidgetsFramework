@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Widget Test Harness</title>
+    <link rel="stylesheet" href="test.css">
+</head>
+<body>
+
+    <h1>Widget Test Harness</h1>
+
+    <div id="controls">
+        <h2>Event Simulator</h2>
+
+        <label>Platform:</label>
+        <select id="sim-platform">
+            <option value="twitch">Twitch</option>
+            <option value="youtube">YouTube</option>
+            <option value="kick">Kick</option>
+            <option value="tiktok">TikTok</option>
+            <option value="kofi">Ko-fi</option>
+            <option value="streamelements">StreamElements</option>
+            <option value="streamlabs">Streamlabs</option>
+            <option value="patreon">Patreon</option>
+            <option value="fourthwall">Fourthwall</option>
+        </select>
+
+        <label>Event Type:</label>
+        <select id="sim-type">
+            <option value="follow">Follow</option>
+            <option value="sub">Sub</option>
+            <option value="resub">Resub</option>
+            <option value="giftsub">Gift Sub</option>
+            <option value="cheer">Cheer</option>
+            <option value="donation">Donation</option>
+            <option value="raid">Raid</option>
+            <option value="reward">Reward</option>
+            <option value="gift">Gift</option>
+        </select>
+
+        <button id="sim-send">Send Test Event</button>
+
+        <h2>Theme Presets</h2>
+        <select id="theme-select">
+            <option value="">Default</option>
+            <option value="dark">Dark</option>
+            <option value="neon">Neon</option>
+            <option value="cyberpunk">Cyberpunk</option>
+            <option value="pastel">Pastel</option>
+            <option value="minimal">Minimal</option>
+        </select>
+
+        <button id="apply-theme">Apply Theme</button>
+
+        <h2>Custom JSON Event</h2>
+        <textarea id="json-input" placeholder="Paste UEM JSON here"></textarea>
+        <button id="send-json">Send JSON Event</button>
+    </div>
+
+    <iframe id="widget-frame" src="../alerts/index.html?debug=1" frameborder="0"></iframe>
+
+    <script src="test.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+body {
+    font-family: Inter, sans-serif;
+    background: #111;
+    color: #eee;
+    padding: 20px;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+#controls {
+    background: #222;
+    padding: 20px;
+    border-radius: 12px;
+    width: 360px;
+    float: left;
+}
+
+#controls h2 {
+    margin-top: 20px;
+}
+
+#controls select,
+#controls textarea,
+#controls button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+}
+
+#controls textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+#widget-frame {
+    width: 800px;
+    height: 600px;
+    margin-left: 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+}
