@@ -7,8 +7,6 @@ const ALERT_MODE = "stacked";
 const ALERT_DIRECTION = "left-right";  // "bottom-up", "top-down", "left-right", "right-left"
 const ALERT_ANIMATION = "scale"; // "slide-fade", "fade", "scale"
 
-const PARAM_TAG = getParam("tag"); // single tag for now
-
 
 const ENABLE_TWITCH = true;
 const ENABLE_YOUTUBE = false;
@@ -55,7 +53,6 @@ function getFilteredEvents() {
 	return eventBuffer.filter(ev => {
 		if (PARAM_PLATFORM && ev.platform !== PARAM_PLATFORM) return false;
 		if (PARAM_TYPE && ev.type && ev.type !== PARAM_TYPE) return false;
-		if (PARAM_TAG && (!ev.tags || !ev.tags.includes(PARAM_TAG))) return false;
 		return true;
 	});
 }
@@ -1361,37 +1358,34 @@ function GetWinnersList(gifts) {
 	}
 }
 
-function UpdateAlertBox(platform, avatar, username, description, attribute, message, type, subtype, tags, rawData) {
-
+function UpdateAlertBox(platform, avatar, username, description, attribute, userForMessage, message, action, rawData, eventType) {
+	// Basic alert object; you can extend this with "type" later
 	const alert = {
 		platform,
-		type,
-		subtype,
-		tags: tags || [],
+		avatar,
 		username,
 		description,
 		attribute,
 		message,
-		avatar,
-		raw: rawData || null
+		type: eventType || "alert",
+		// type: you can pass this from callers later, for now leave undefined
 	};
 
-	// Always push to event buffer
+	// Always push to event buffer for indexed/list widgets
 	pushToEventBuffer(alert);
 
-	// Fixed index mode
+	// If we are in fixed index or list mode, we don't use the normal queue
 	if (PARAM_INDEX !== null) {
 		renderIndexedEvent();
 		return;
 	}
 
-	// List mode
 	if (PARAM_LIST !== null) {
 		renderEventList();
 		return;
 	}
 
-	// Normal alert mode
+	// Normal alert mode (classic/stacked)
 	alertQueue.push(alert);
 	processQueue();
 }
@@ -1423,9 +1417,7 @@ function renderIndexedEvent() {
 	container.innerHTML = "";
 
 	const filtered = getFilteredEvents();
-	if (filtered.length === 0) return;
-
-	const idx = Math.min(Math.max(0, PARAM_INDEX), filtered.length - 1);
+	const idx = Math.max(0, PARAM_INDEX); // safety
 
 	const alert = filtered[idx];
 	if (!alert) return;
@@ -1444,9 +1436,7 @@ function renderEventList() {
 	container.innerHTML = "";
 
 	const filtered = getFilteredEvents();
-	if (filtered.length === 0) return;
-
-	const count = Math.max(1, PARAM_LIST);
+	const count = Math.max(1, PARAM_LIST); // at least 1
 
 	filtered.slice(0, count).forEach(alert => {
 		const el = buildAlertElement(alert);
@@ -1460,23 +1450,24 @@ function buildAlertElement(alert) {
 	el.className = `alert ${alert.platform} ${getDirectionClass()} ${getAnimationClass()}`;
 
 	el.innerHTML = `
-		<div class="content">
-			<img class="avatar hidden" src="${alert.avatar}"
-				onload="this.classList.remove('hidden')"
-				onerror="if (this && this.parentElement && this.parentElement.parentElement) {
-					this.parentElement.parentElement.classList.add('no-avatar');
-				}
-				this.remove();">
-			<div class="text">
-				<div class="username">${alert.username}</div>
-				<div class="message">
-					${alert.description ?? ""} ${alert.attribute ?? ""}
-					<br>
-					${alert.message ?? ""}
-				</div>
-			</div>
-		</div>
-	`;
+        <div class="content">
+		<img class="avatar hidden" src="${alert.avatar}"
+			onload="this.classList.remove('hidden')"
+			onerror="if (this && this.parentElement && this.parentElement.parentElement) {
+            this.parentElement.parentElement.classList.add('no-avatar');
+         }
+         this.remove();">
+            <div class="text">
+                <div class="username">${alert.username}</div>
+                <div class="message">
+                    ${alert.description} ${alert.attribute ?? ""}
+                    <br>
+                    ${alert.message ?? ""}
+                </div>
+            </div>
+        </div>
+    `;
+
 
 	return el;
 }
@@ -1507,10 +1498,6 @@ function getAnimationClass() {
 
 
 function showClassicAlert(alert) {
-
-	// Do not show classic alerts if index/list mode is active
-	if (PARAM_INDEX !== null || PARAM_LIST !== null) return;
-
 	isShowing = true;
 
 	const container = document.getElementById("alert-container");
@@ -1533,10 +1520,6 @@ function showClassicAlert(alert) {
 }
 
 function showStackedAlert(alert) {
-
-	// Do not show stacked alerts if index/list mode is active
-	if (PARAM_INDEX !== null || PARAM_LIST !== null) return;
-	
 	const container = document.getElementById("alert-container");
 
 	const el = buildAlertElement(alert);
