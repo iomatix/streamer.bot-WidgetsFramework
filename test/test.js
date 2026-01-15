@@ -30,7 +30,7 @@ function generateTestEvent(platform, type) {
         description: `${type} event triggered`,
         attribute: "Test attribute",
         message: "This is a simulated event",
-        avatar: "https://placekitten.com/128/128",
+        avatar: `https://placekittens.com/${64 + Math.floor(Math.random()*64)}/${64 + Math.floor(Math.random()*64)}`,
         raw: { simulated: true }
     };
 }
