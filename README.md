@@ -144,7 +144,7 @@ Please keep changes:
 ## Contributors
 
 <a href="https://github.com/iomatix/streamer.bot-WidgetsFramework/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=iomatix/streamer.bot-WidgetsFramework/" />
+  <img src="https://contrib.rocks/image?repo=iomatix/streamer.bot-WidgetsFramework" />
 </a>
 
 ---
