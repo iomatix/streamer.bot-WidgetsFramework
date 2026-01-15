@@ -1,5 +1,5 @@
 /* ============================================
-   GLOBAL THEME (shared variables)
+   GLOBAL THEME (local defaults, can reuse shared)
    ============================================ */
 
 :root {
@@ -39,13 +39,48 @@
 
     opacity: 0;
     transform: translateX(-200%);
-    transition: opacity var(--np-duration) ease,
-                transform var(--np-duration) ease;
+    transition:
+        opacity var(--np-duration) ease,
+        transform var(--np-duration) ease;
 }
 
 .nameplate.visible {
     opacity: 1;
     transform: translateX(0);
+}
+
+/* Directions */
+
+.nameplate-dir-left {
+    transform: translateX(-200%);
+}
+
+.nameplate-dir-left.visible {
+    transform: translateX(0);
+}
+
+.nameplate-dir-right {
+    transform: translateX(200%);
+}
+
+.nameplate-dir-right.visible {
+    transform: translateX(0);
+}
+
+.nameplate-dir-top {
+    transform: translateY(-200%);
+}
+
+.nameplate-dir-top.visible {
+    transform: translateY(0);
+}
+
+.nameplate-dir-bottom {
+    transform: translateY(200%);
+}
+
+.nameplate-dir-bottom.visible {
+    transform: translateY(0);
 }
 
 /* ============================================
@@ -67,8 +102,20 @@
     transition: transform var(--np-duration) ease;
 }
 
-.nameplate-card.flipped {
+.nameplate-card.flip-y {
+    transform-origin: center;
+}
+
+.nameplate-card.flip-x {
+    transform-origin: center;
+}
+
+.nameplate-card.flipped-y {
     transform: rotateY(180deg);
+}
+
+.nameplate-card.flipped-x {
+    transform: rotateX(180deg);
 }
 
 /* ============================================
@@ -94,26 +141,43 @@
 
 /* FRONT */
 .nameplate-front {
-    transform: rotateY(180deg);
     padding: 0 20px;
     justify-content: flex-start;
     gap: 16px;
 }
 
+/* Flip alignment */
+
+.nameplate-card.flip-y .nameplate-front {
+    transform: rotateY(180deg);
+}
+
+.nameplate-card.flip-x .nameplate-front {
+    transform: rotateX(180deg);
+}
+
 /* ============================================
-   PLATFORM LOGOS
+   PLATFORM LOGOS / AVATAR
    ============================================ */
 
 .platform-logo {
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     object-fit: contain;
-    opacity: 0.9;
+    opacity: 0.95;
 }
 
 .platform-logo.small {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
+}
+
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    object-fit: cover;
+    box-shadow: 0 0 10px rgba(0,0,0,0.6);
 }
 
 /* ============================================
