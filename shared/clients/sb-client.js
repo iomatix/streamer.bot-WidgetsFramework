@@ -6,11 +6,3 @@ export const sbClient = new StreamerbotClient({
     endpoint: "/",
     autoReconnect: true
 });
-
-sbClient.on("connected", () => {
-    console.log("[SB] Connected");
-});
-
-sbClient.on("disconnected", () => {
-    console.log("[SB] Disconnected");
-});

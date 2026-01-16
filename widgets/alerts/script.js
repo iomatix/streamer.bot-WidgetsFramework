@@ -7,8 +7,11 @@ function handleIncoming(eventName, data) {
     if (alert) renderAlert(alert);
 }
 
-// SB events
-sbClient.onAny((eventName, data) => handleIncoming(eventName, data));
+// SB events — wildcard
+sbClient.on("*", ({ event, data }) => {
+    const eventName = `${event.source}.${event.type}`;
+    handleIncoming(eventName, data);
+});
 
 // Custom events (TikTok, Streamloots)
 initCustomClients((eventName, data) => handleIncoming(eventName, data));
