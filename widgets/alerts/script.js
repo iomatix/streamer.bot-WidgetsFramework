@@ -5,15 +5,13 @@
  ****************************************************/
 
 import { GetAvatar } from "../../shared/helpers.js";
+import { sbClient as client } from "../../shared/sb-client.js";
 import { PLATFORM_ICONS } from "../../shared/platforms.js";
 import { PLATFORM_COLORS } from "../../shared/platforms.js";   
 
 /* ================================
  * 1. CONFIGURATION
  * ================================ */
-
-const SB_SERVER_ADDRESS = "127.0.0.1";
-const SB_SERVER_PORT = "8080";
 
 // Options: "classic" or "stacked"
 // - classic: one alert at a time (queue)
@@ -428,29 +426,6 @@ const Renderer = {
 		return el;
 	}
 };
-
-/* ================================
- * 6. STREAMER.BOT CLIENT
- * ================================ */
-
-// TODO: Use shared/sb-client.js !!! IMPORTANT: ONLY ONE CLIENT CAN BE USED FOR THE WHOLE PROJECT ! ! !
-const client = new StreamerbotClient({
-	host: SB_SERVER_ADDRESS,
-	port: SB_SERVER_PORT,
-
-	onConnect: (data) => {
-		console.log(`Streamer.bot successfully connected to ${SB_SERVER_ADDRESS}:${SB_SERVER_PORT}`);
-		console.debug(data);
-		// External function, assumed to exist
-		SetConnectionStatus(true);
-	},
-
-	onDisconnect: () => {
-		console.error(`Streamer.bot disconnected from ${SB_SERVER_ADDRESS}:${SB_SERVER_PORT}`);
-		// External function, assumed to exist
-		SetConnectionStatus(false);
-	}
-});
 
 /**
  * Each event from Streamer.bot is now:

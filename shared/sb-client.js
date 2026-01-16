@@ -1,8 +1,10 @@
 import StreamerbotClient from "https://cdn.jsdelivr.net/npm/@streamerbot/client/dist/streamerbot-client.esm.js";
 
+const SB_SERVER_ADDRESS = "127.0.0.1";
+const SB_SERVER_PORT = "8080";
 export const sbClient = new StreamerbotClient({
-    host: "127.0.0.1",
-    port: 8080,
+    host: SB_SERVER_ADDRESS,
+    port: SB_SERVER_PORT,
     endpoint: "/",
     autoReconnect: true
 });

@@ -1,11 +1,11 @@
+import { sbClient as client } from "./sb-client.js";
+
 //////////////////////
 // GLOBAL VARIABLES //
 //////////////////////
 
 export const avatarMap = new Map();
 export const pronounMap = new Map();
-
-
 
 //////////////////////
 // HELPER FUNCTIONS //
