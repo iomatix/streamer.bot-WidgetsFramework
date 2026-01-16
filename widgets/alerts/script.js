@@ -4,6 +4,7 @@ import { initCustomClients } from "../../shared/clients/init.js";
 import { routeEvent } from "../../shared/events/router.js";
 import { Renderer } from "./renderer.js";
 import { getRenderMode, getFilteredEvents, getListCount, getIndex } from "../../shared/uem/render-modes.js";
+import { eventBuffer, pushToBuffer } from "../../shared/uem/buffer.js";
 
 
 ThemeManager.init();

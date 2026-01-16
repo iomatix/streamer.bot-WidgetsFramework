@@ -1,4 +1,4 @@
-import { pushToBuffer } from "./buffer.js";
+import { eventBuffer, pushToBuffer } from "./buffer.js";
 import { passesFilters } from "./filters.js";
 
 const listeners = new Map();
@@ -6,8 +6,6 @@ const listeners = new Map();
 export const UEM = {
     emit(event) {
         if (!event) return;
-
-        pushToBuffer(event);
 
         const handlers = listeners.get(event.type) || [];
         handlers.forEach(h => h(event));
@@ -30,10 +28,11 @@ export const UEM = {
         // 2. URL filters
         const params = new URLSearchParams(window.location.search);
         const filterParams = {
-            platform: params.get("platform"),
-            type: params.get("type"),
-            tag: params.get("tag"),
-            excludeTag: params.get("excludeTag")
+            platform: params.get("platform") || undefined,
+            type: params.get("type") || undefined,
+            tag: params.get("tag") || undefined,
+            tagAll: params.get("tagAll") || undefined,
+            excludeTag: params.get("excludeTag") || undefined
         };
 
         if (!passesFilters(normalizedEvent, filterParams)) return null;
@@ -41,5 +40,4 @@ export const UEM = {
         // 3. return normalized event for rendering
         return normalizedEvent;
     }
-
 };

@@ -1,4 +1,4 @@
-import { eventBuffer } from "./buffer.js";
+import { eventBuffer, pushToBuffer } from "./buffer.js";
 
 export function filterEvents(params) {
     return eventBuffer.filter(ev => {

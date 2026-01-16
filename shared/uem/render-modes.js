@@ -1,14 +1,14 @@
 import { filterEvents } from "./filters.js";
-import { eventBuffer } from "./buffer.js";
 
 export function getFilteredEvents() {
     const params = new URLSearchParams(window.location.search);
 
     const filterParams = {
-        platform: params.get("platform") || null,
-        type: params.get("type") || null,
-        tag: params.get("tag") || null,
-        excludeTag: params.get("excludeTag") || null
+        platform: params.get("platform") || undefined,
+        type: params.get("type") || undefined,
+        tag: params.get("tag") || undefined,
+        tagAll: params.get("tagAll") || undefined,
+        excludeTag: params.get("excludeTag") || undefined
     };
 
     return filterEvents(filterParams);
