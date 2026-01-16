@@ -4,7 +4,9 @@ export const ThemeManager = {
 
         const preset = params.get("themePreset") || "default";
         const mode = params.get("themeMode") || "platform"; // platform | neutral | custom
-        
+        const stack = params.get("stack") || "up"; // up | down | left | right
+
+
         const transparent = params.get("transparent") === "1";
 
         const bgColor = params.get("bgColor");
@@ -16,12 +18,15 @@ export const ThemeManager = {
         // 2. mode
         document.body.classList.add(`theme-mode-${mode}`);
 
-        // 3. transparent background
+        // 3. stack
+        document.body.classList.add(`stack-${stack}`);
+
+        // 4. transparent background
         if (transparent) {
             document.body.classList.add("theme-transparent");
         }
 
-        // 4. custom colors → CSS variables
+        // 5. custom colors → CSS variables
         const root = document.documentElement;
 
         if (bgColor) {

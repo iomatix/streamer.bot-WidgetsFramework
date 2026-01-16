@@ -79,18 +79,49 @@ export const Renderer = {
         return el;
     },
 
+    // LIVE MODE
     showAlert(alert) {
         const container = this.getContainer();
         const el = this.buildAlertElement(alert);
         container.appendChild(el);
 
-        // Trigger entry animation
         requestAnimationFrame(() => el.classList.add("visible"));
 
-        // Exit animation
         setTimeout(() => {
             el.classList.add("exit");
             setTimeout(() => el.remove(), 500);
         }, 5000);
+    },
+
+    // LIST MODE
+    renderList(events) {
+        const container = this.getContainer();
+        container.innerHTML = ""; // clear
+
+        events.forEach(ev => {
+            const el = this.buildAlertElement(ev);
+
+            // list mode = no animations
+            el.classList.add("visible");
+            el.style.transition = "none";
+
+            container.appendChild(el);
+        });
+    },
+
+    // INDEX MODE
+    renderIndex(event) {
+        const container = this.getContainer();
+        container.innerHTML = ""; // clear
+
+        if (!event) return;
+
+        const el = this.buildAlertElement(event);
+
+        // index mode = no animations
+        el.classList.add("visible");
+        el.style.transition = "none";
+
+        container.appendChild(el);
     }
 };

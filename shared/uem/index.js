@@ -21,13 +21,13 @@ export const UEM = {
         listeners.get(type).push(handler);
     },
 
-    process(event) {
-        if (!event) return null;
+    process(normalizedEvent) {
+        if (!normalizedEvent) return null;
 
-        // 1. buffer
-        pushToBuffer(event);
+        // 1. push normalized event to buffer
+        pushToBuffer(normalizedEvent);
 
-        // 2. URL params → filters
+        // 2. URL filters
         const params = new URLSearchParams(window.location.search);
         const filterParams = {
             platform: params.get("platform"),
@@ -36,9 +36,10 @@ export const UEM = {
             excludeTag: params.get("excludeTag")
         };
 
-        if (!passesFilters(event, filterParams)) return null;
+        if (!passesFilters(normalizedEvent, filterParams)) return null;
 
-        // 3. return event for rendering
-        return event;
+        // 3. return normalized event for rendering
+        return normalizedEvent;
     }
+
 };

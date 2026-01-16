@@ -3,13 +3,39 @@ import { sbClient } from "../../shared/clients/sb-client.js";
 import { initCustomClients } from "../../shared/clients/init.js";
 import { routeEvent } from "../../shared/events/router.js";
 import { Renderer } from "./renderer.js";
+import { getRenderMode, getFilteredEvents, getListCount, getIndex } from "../../shared/uem/render-modes.js";
+
 
 ThemeManager.init();
-
 async function handleIncoming(eventName, data) {
     const alert = await routeEvent(eventName, data);
+    const mode = getRenderMode();
     console.log("UEM:", alert);
-    if (alert) Renderer.showAlert(alert);
+    // If this event does NOT produce an alert, ignore it for list/index modes.
+    // This prevents flicker from Input.*, Raw.*, Action.*, etc.
+    const isAlert = !!alert;
+
+    if (mode === "live") {
+        if (isAlert) Renderer.showAlert(alert);
+        return;
+    }
+
+    if (mode === "list") {
+        if (isAlert) {
+            const events = getFilteredEvents().slice(-getListCount());
+            Renderer.renderList(events);
+        }
+        return;
+    }
+
+    if (mode === "index") {
+        if (isAlert) {
+            const events = getFilteredEvents();
+            const index = getIndex();
+            Renderer.renderIndex(events[index]);
+        }
+        return;
+    }
 }
 
 

@@ -2,7 +2,7 @@
    GLOBAL VARIABLES
    ============================================================ */
 
-   :root {
+:root {
     /* Layout */
     --alert-max-width: 520px;
     --alert-padding: 18px 24px;
@@ -63,7 +63,8 @@
    RESET
    ============================================================ */
 
-html, body {
+html,
+body {
     font-family: var(--font-family);
 }
 
@@ -115,7 +116,7 @@ html, body {
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background: linear-gradient(120deg, rgba(255,255,255,0.08), transparent 60%);
+    background: linear-gradient(120deg, rgba(255, 255, 255, 0.08), transparent 60%);
     pointer-events: none;
 }
 
@@ -223,6 +224,26 @@ body.theme-mode-platform .alert-item.platform-tipeeestream {
 
 
 /* ============================================================
+   STACK
+   ============================================================ */
+
+body.stack-up #alert-container {
+    flex-direction: column-reverse;
+}
+
+body.stack-down #alert-container {
+    flex-direction: column;
+}
+
+body.stack-left #alert-container {
+    flex-direction: row-reverse;
+}
+
+body.stack-right #alert-container {
+    flex-direction: row;
+}
+
+/* ============================================================
    NEUTRAL MODE
    ============================================================ */
 
@@ -260,8 +281,15 @@ body.theme-preset-default .alert-item {
 }
 
 @keyframes default-entry {
-    0% { opacity: 0; transform: translateY(20px) scale(0.95); }
-    100% { opacity: 1; transform: translateY(0) scale(1); }
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 
@@ -275,13 +303,29 @@ body.theme-preset-neon .alert-item {
 }
 
 @keyframes neon-entry {
-    0% { opacity: 0; transform: translateY(20px) scale(0.8); filter: blur(4px); }
-    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.8);
+        filter: blur(4px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
 }
 
 @keyframes neon-pulse {
-    0%, 100% { box-shadow: 0 0 18px rgba(0, 255, 200, 0.5); }
-    50% { box-shadow: 0 0 28px rgba(0, 255, 200, 0.8); }
+
+    0%,
+    100% {
+        box-shadow: 0 0 18px rgba(0, 255, 200, 0.5);
+    }
+
+    50% {
+        box-shadow: 0 0 28px rgba(0, 255, 200, 0.8);
+    }
 }
 
 
@@ -291,20 +335,45 @@ body.theme-preset-cyberpunk .alert-item {
         0 0 18px rgba(255, 0, 128, 0.5),
         0 0 28px rgba(0, 255, 255, 0.4);
     animation: cyber-entry 0.55s cubic-bezier(0.19, 1, 0.22, 1) forwards,
-               cyber-glitch 2.8s infinite steps(2);
+        cyber-glitch 2.8s infinite steps(2);
 }
 
 @keyframes cyber-entry {
-    0% { opacity: 0; transform: translateY(30px) scale(0.85); filter: blur(6px); }
-    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.85);
+        filter: blur(6px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
 }
 
 @keyframes cyber-glitch {
-    0%, 100% { transform: translate(0, 0); }
-    20% { transform: translate(-2px, 1px); }
-    40% { transform: translate(2px, -1px); }
-    60% { transform: translate(-1px, -2px); }
-    80% { transform: translate(1px, 2px); }
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    20% {
+        transform: translate(-2px, 1px);
+    }
+
+    40% {
+        transform: translate(2px, -1px);
+    }
+
+    60% {
+        transform: translate(-1px, -2px);
+    }
+
+    80% {
+        transform: translate(1px, 2px);
+    }
 }
 
 
@@ -317,8 +386,15 @@ body.theme-preset-minimal .alert-item {
 }
 
 @keyframes minimal-entry {
-    0% { opacity: 0; transform: translateY(10px); }
-    100% { opacity: 1; transform: translateY(0); }
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 body.theme-preset-pastel .alert-item {
@@ -330,8 +406,15 @@ body.theme-preset-pastel .alert-item {
 }
 
 @keyframes pastel-entry {
-    0% { opacity: 0; transform: scale(0.9) translateY(10px); }
-    100% { opacity: 1; transform: scale(1) translateY(0); }
+    0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 
@@ -339,30 +422,69 @@ body.theme-preset-pastel .alert-item {
    DIRECTION ANIMATIONS
    ============================================================ */
 
-.alert-item.dir-bottom-up { transform: translateY(20px); }
-.alert-item.dir-bottom-up.visible { transform: translateY(0); }
+.alert-item.dir-bottom-up {
+    transform: translateY(20px);
+}
 
-.alert-item.dir-top-down { transform: translateY(-20px); }
-.alert-item.dir-top-down.visible { transform: translateY(0); }
+.alert-item.dir-bottom-up.visible {
+    transform: translateY(0);
+}
 
-.alert-item.dir-left-right { transform: translateX(-40px); }
-.alert-item.dir-left-right.visible { transform: translateX(0); }
+.alert-item.dir-top-down {
+    transform: translateY(-20px);
+}
 
-.alert-item.dir-right-left { transform: translateX(40px); }
-.alert-item.dir-right-left.visible { transform: translateX(0); }
+.alert-item.dir-top-down.visible {
+    transform: translateY(0);
+}
+
+.alert-item.dir-left-right {
+    transform: translateX(-40px);
+}
+
+.alert-item.dir-left-right.visible {
+    transform: translateX(0);
+}
+
+.alert-item.dir-right-left {
+    transform: translateX(40px);
+}
+
+.alert-item.dir-right-left.visible {
+    transform: translateX(0);
+}
 
 /* ============================================================
    ENTRY ANIMATIONS
    ============================================================ */
 
-.alert-item.anim-slide-fade { opacity: 0; transform: translateY(20px); }
-.alert-item.anim-slide-fade.visible { opacity: 1; transform: translateY(0); }
+.alert-item.anim-slide-fade {
+    opacity: 0;
+    transform: translateY(20px);
+}
 
-.alert-item.anim-fade { opacity: 0; }
-.alert-item.anim-fade.visible { opacity: 1; }
+.alert-item.anim-slide-fade.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
 
-.alert-item.anim-scale { opacity: 0; transform: scale(0.8); }
-.alert-item.anim-scale.visible { opacity: 1; transform: scale(1); }
+.alert-item.anim-fade {
+    opacity: 0;
+}
+
+.alert-item.anim-fade.visible {
+    opacity: 1;
+}
+
+.alert-item.anim-scale {
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+.alert-item.anim-scale.visible {
+    opacity: 1;
+    transform: scale(1);
+}
 
 /* ============================================================
    EXIT ANIMATION
