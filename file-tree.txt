@@ -34,7 +34,6 @@ C:\USERS\MATEU\DESKTOP\STREAM\_WIDGET_FRAMEWORK
 |   |       theme.css
 |   |       
 |   +---events
-|   |   |   broadcast.js
 |   |   |   index.js
 |   |   |   router.js
 |   |   |   
@@ -153,8 +152,6 @@ C:\USERS\MATEU\DESKTOP\STREAM\_WIDGET_FRAMEWORK
 |           pronouns.js
 |           
 \---widgets
-    |   script.js
-    |   
     +---alerts
     |   |   index.html
     |   |   queue.js
