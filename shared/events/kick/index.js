@@ -1,0 +1,9 @@
+export { KickFollowAdapter } from "./follow.js";
+export { KickKicksGiftedAdapter } from "./kicksGifted.js";
+export { KickGiftSubscriptionAdapter } from "./giftsub.js";
+export { KickMassGiftSubscriptionAdapter } from "./massgiftsub.js";
+export { KickResubscriptionAdapter } from "./resubscription.js";
+export { KickSubscriptionAdapter } from "./subscription.js";
+export { KickRewardRedemptionAdapter } from "./reward.js";
+export { KickChatMessageAdapter } from "./chatmessage.js";
+export { KickFirstWordsAdapter } from "./firstwords.js";

@@ -1,0 +1,1 @@
+export { TreatStreamTreatAdapter } from "./treat.js";

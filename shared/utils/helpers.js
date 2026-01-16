@@ -1,4 +1,4 @@
-import { sbClient as client } from "./sb-client.js";
+import { sbClient as client } from "../clients/sb-client.js";
 
 //////////////////////
 // GLOBAL VARIABLES //

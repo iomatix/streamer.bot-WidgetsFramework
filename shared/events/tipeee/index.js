@@ -1,0 +1,1 @@
+export { TipeeeStreamDonationAdapter } from "./donation.js";

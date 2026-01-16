@@ -1,0 +1,1 @@
+tree ".\" /f /a > ".\file-tree.txt"

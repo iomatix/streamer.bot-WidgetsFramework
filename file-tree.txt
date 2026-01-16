@@ -1,0 +1,185 @@
+Folder PATH listing for volume goodram IRP P44S
+Volume serial number is 1AC5-1F05
+C:\USERS\MATEU\DESKTOP\STREAM\_WIDGET_FRAMEWORK
+|   file-tree.txt
+|   LICENSE.md
+|   print_tree.bat
+|   README.md
+|   run_widget_server.py
+|   start_server.bat
+|   
++---assets
+|   \---icons
+|       \---platforms
++---docs
+|       architecture.md
+|       event-matrix.md
+|       parameters.md
+|       README.md
+|       widget-api.md
+|       
++---shared
+|   |   events-loader.js
+|   |   events-map.js
+|   |   platforms.js
+|   |   
+|   +---clients
+|   |       index.js
+|   |       init.js
+|   |       sb-client.js
+|   |       streamloots-client.js
+|   |       tikfinity-client.js
+|   |       
+|   +---css
+|   |       theme.css
+|   |       
+|   +---events
+|   |   |   broadcast.js
+|   |   |   index.js
+|   |   |   router.js
+|   |   |   
+|   |   +---crowdcontrol
+|   |   |       coinExchange.js
+|   |   |       effectFailure.js
+|   |   |       effectRequest.js
+|   |   |       effectSuccess.js
+|   |   |       gameSessionEnd.js
+|   |   |       gameSessionStart.js
+|   |   |       index.js
+|   |   |       timedEffectEnded.js
+|   |   |       timedEffectStarted.js
+|   |   |       timedEffectUpdate.js
+|   |   |       
+|   |   +---donordrive
+|   |   |       donation.js
+|   |   |       incentive.js
+|   |   |       index.js
+|   |   |       
+|   |   +---fourthwall
+|   |   |       donation.js
+|   |   |       giftdrawend.js
+|   |   |       giftdrawstart.js
+|   |   |       giftpurchase.js
+|   |   |       index.js
+|   |   |       order.js
+|   |   |       subscription.js
+|   |   |       
+|   |   +---kick
+|   |   |       chatmessage.js
+|   |   |       firstwords.js
+|   |   |       follow.js
+|   |   |       giftsub.js
+|   |   |       index.js
+|   |   |       kicksGifted.js
+|   |   |       massgiftsub.js
+|   |   |       resubscription.js
+|   |   |       reward.js
+|   |   |       subscription.js
+|   |   |       
+|   |   +---kofi
+|   |   |       commission.js
+|   |   |       donation.js
+|   |   |       index.js
+|   |   |       resubscription.js
+|   |   |       shoporder.js
+|   |   |       subscription.js
+|   |   |       
+|   |   +---patreon
+|   |   |       index.js
+|   |   |       pledge.js
+|   |   |       
+|   |   +---streamelements
+|   |   |       index.js
+|   |   |       merch.js
+|   |   |       tip.js
+|   |   |       
+|   |   +---streamlabs
+|   |   |       donation.js
+|   |   |       index.js
+|   |   |       
+|   |   +---streamloots
+|   |   |       cardRedeemed.js
+|   |   |       chestPurchased.js
+|   |   |       index.js
+|   |   |       packPurchased.js
+|   |   |       subscription.js
+|   |   |       tip.js
+|   |   |       
+|   |   +---tiktok
+|   |   |       gift.js
+|   |   |       index.js
+|   |   |       subscribe.js
+|   |   |       
+|   |   +---tipeee
+|   |   |       donation.js
+|   |   |       index.js
+|   |   |       
+|   |   +---treatstream
+|   |   |       index.js
+|   |   |       treat.js
+|   |   |       
+|   |   +---twitch
+|   |   |       chatmessage.js
+|   |   |       cheer.js
+|   |   |       firstwords.js
+|   |   |       follow.js
+|   |   |       giftbomb.js
+|   |   |       giftsub.js
+|   |   |       index.js
+|   |   |       raid.js
+|   |   |       resub.js
+|   |   |       reward.js
+|   |   |       sub.js
+|   |   |       watchstreak.js
+|   |   |       
+|   |   \---youtube
+|   |           giftmembership.js
+|   |           index.js
+|   |           sponsor.js
+|   |           superchat.js
+|   |           supersticker.js
+|   |           
+|   +---uem
+|   |       buffer.js
+|   |       filters.js
+|   |       index.js
+|   |       types.js
+|   |       uem.js
+|   |       
+|   \---utils
+|           avatar.js
+|           escape.js
+|           helpers.js
+|           pronouns.js
+|           
+\---widgets
+    |   script.js
+    |   
+    +---alerts
+    |   |   index.html
+    |   |   queue.js
+    |   |   renderer.js
+    |   |   script.js
+    |   |   style.css
+    |   |   
+    |   \---test
+    |           index.html
+    |           script.js
+    |           style.css
+    |           
+    +---nameplate
+    |   |   index.html
+    |   |   README.md
+    |   |   script.js
+    |   |   style.css
+    |   |   
+    |   \---test
+    |           index.html
+    |           script.js
+    |           style.css
+    |           
+    \---test-harness
+            index.html
+            script.js
+            style.css
+            
