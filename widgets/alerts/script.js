@@ -1,18 +1,27 @@
+import { ThemeManager } from "../../shared/theme.js";
 import { sbClient } from "../../shared/clients/sb-client.js";
 import { initCustomClients } from "../../shared/clients/init.js";
 import { routeEvent } from "../../shared/events/router.js";
 import { Renderer } from "./renderer.js";
 
-function handleIncoming(eventName, data) {
-    const alert = routeEvent(eventName, data);
+ThemeManager.init();
+
+async function handleIncoming(eventName, data) {
+    const alert = await routeEvent(eventName, data);
+    console.log("UEM:", alert);
     if (alert) Renderer.showAlert(alert);
 }
 
+
+
 // SB events — wildcard
-sbClient.on("*", ({ event, data }) => {
+sbClient.on("*", async ({ event, data }) => {
     const eventName = `${event.source}.${event.type}`;
-    handleIncoming(eventName, data);
+    await handleIncoming(eventName, data);
 });
 
+
 // Custom events (TikTok, Streamloots)
-initCustomClients((eventName, data) => handleIncoming(eventName, data));
+initCustomClients(async (eventName, data) => {
+    await handleIncoming(eventName, data);
+});

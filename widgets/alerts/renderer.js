@@ -5,23 +5,76 @@ export const Renderer = {
 
     buildAlertElement(alert) {
         const el = document.createElement("div");
-        el.classList.add("alert-item", `type-${alert.type}`);
 
-        const avatar = document.createElement("img");
-        avatar.classList.add("alert-avatar");
-        avatar.src = alert.avatar;
+        // Base classes
+        el.classList.add("alert-item");
 
+        // Platform theme
+        if (alert.platform) {
+            el.classList.add(`platform-${alert.platform}`);
+        }
+
+        // Type
+        if (alert.type) {
+            el.classList.add(`type-${alert.type}`);
+        }
+
+        // Subtype
+        if (alert.subtype) {
+            el.classList.add(`subtype-${alert.subtype}`);
+        }
+
+        // Tags
+        if (Array.isArray(alert.tags)) {
+            alert.tags.forEach(tag => {
+                el.classList.add(`tag-${tag}`);
+            });
+        }
+
+        // Direction (default: bottom-up)
+        const params = new URLSearchParams(window.location.search);
+        const direction = params.get("dir") || "bottom-up";
+        el.classList.add(`dir-${direction}`);
+
+        // Animation (default: slide-fade)
+        const anim = params.get("anim") || "slide-fade";
+        el.classList.add(`anim-${anim}`);
+
+        // Avatar (optional)
+        if (alert.avatar) {
+            const avatar = document.createElement("img");
+            avatar.classList.add("alert-avatar");
+            avatar.src = alert.avatar;
+            el.appendChild(avatar);
+        }
+
+        // Username
         const user = document.createElement("div");
         user.classList.add("alert-username");
         user.innerHTML = alert.username;
+        el.appendChild(user);
 
+        // Description
         const desc = document.createElement("div");
         desc.classList.add("alert-description");
         desc.innerHTML = alert.description;
-
-        el.appendChild(avatar);
-        el.appendChild(user);
         el.appendChild(desc);
+
+        // Attribute (optional)
+        if (alert.attribute) {
+            const attr = document.createElement("div");
+            attr.classList.add("alert-attribute");
+            attr.innerHTML = alert.attribute;
+            el.appendChild(attr);
+        }
+
+        // Message (optional)
+        if (alert.message) {
+            const msg = document.createElement("div");
+            msg.classList.add("alert-message");
+            msg.innerHTML = alert.message;
+            el.appendChild(msg);
+        }
 
         return el;
     },
@@ -31,8 +84,10 @@ export const Renderer = {
         const el = this.buildAlertElement(alert);
         container.appendChild(el);
 
+        // Trigger entry animation
         requestAnimationFrame(() => el.classList.add("visible"));
 
+        // Exit animation
         setTimeout(() => {
             el.classList.add("exit");
             setTimeout(() => el.remove(), 500);

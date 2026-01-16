@@ -1,8 +1,8 @@
-/* ============================================
-   GLOBAL THEME VARIABLES
-   ============================================ */
+/* ============================================================
+   GLOBAL VARIABLES
+   ============================================================ */
 
-:root {
+   :root {
     /* Layout */
     --alert-max-width: 520px;
     --alert-padding: 18px 24px;
@@ -58,17 +58,18 @@
     --tipeee-2: #120e23;
 }
 
-/* ============================================
-   GLOBAL RESET
-   ============================================ */
+
+/* ============================================================
+   RESET
+   ============================================================ */
 
 html, body {
     font-family: var(--font-family);
 }
 
-/* ============================================
+/* ============================================================
    ALERT CONTAINER
-   ============================================ */
+   ============================================================ */
 
 #alert-container {
     position: absolute;
@@ -80,9 +81,9 @@ html, body {
     pointer-events: none;
 }
 
-/* ============================================
-   ALERT ITEM (Unified DOM)
-   ============================================ */
+/* ============================================================
+   BASE ALERT ITEM
+   ============================================================ */
 
 .alert-item {
     position: relative;
@@ -94,15 +95,11 @@ html, body {
     max-width: var(--alert-max-width);
     color: #fff;
 
-    /* Glassmorphism */
     background: var(--alert-bg);
     backdrop-filter: blur(var(--alert-blur));
     border: 1px solid var(--alert-border);
-
-    /* Shadow */
     box-shadow: var(--alert-shadow);
 
-    /* Animation base */
     opacity: 0;
     transform: translateY(20px);
     transition: opacity 0.55s ease, transform 0.55s ease;
@@ -113,7 +110,6 @@ html, body {
     transform: translateY(0);
 }
 
-/* Glass reflection */
 .alert-item::before {
     content: "";
     position: absolute;
@@ -123,11 +119,9 @@ html, body {
     pointer-events: none;
 }
 
-/* ============================================
+/* ============================================================
    AVATAR
-   ============================================ */
-
-.alert-avatar-wrapper {}
+   ============================================================ */
 
 .alert-avatar {
     width: var(--avatar-size);
@@ -137,15 +131,9 @@ html, body {
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.45);
 }
 
-/* ============================================
+/* ============================================================
    TEXT CONTENT
-   ============================================ */
-
-.alert-content {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
+   ============================================================ */
 
 .alert-username {
     font-size: var(--username-size);
@@ -169,79 +157,187 @@ html, body {
     opacity: 0.92;
 }
 
-/* ============================================
-   PLATFORM THEMES (via classes)
-   ============================================ */
+/* ============================================================
+   PLATFORM COLORS (ACTIVE ONLY IN theme-mode-platform)
+   ============================================================ */
 
-.alert-item.platform-twitch {
+body.theme-mode-platform .alert-item.platform-twitch {
     background: linear-gradient(135deg, var(--twitch-1), var(--twitch-2));
     color: #fff;
     box-shadow: 0 0 18px #9146FF55;
 }
 
-.alert-item.platform-youtube {
+body.theme-mode-platform .alert-item.platform-youtube {
     background: linear-gradient(135deg, var(--youtube-1), var(--youtube-2));
     color: #fff;
     box-shadow: 0 0 18px #FF000055;
 }
 
-.alert-item.platform-kick {
+body.theme-mode-platform .alert-item.platform-kick {
     background: linear-gradient(135deg, var(--kick-1), var(--kick-2));
     color: #0a0a0a;
     box-shadow: 0 0 18px #53fc1855;
 }
 
-.alert-item.platform-tiktok {
+body.theme-mode-platform .alert-item.platform-tiktok {
     background: linear-gradient(135deg, var(--tiktok-1), var(--tiktok-2));
     color: #fff;
     box-shadow: 0 0 18px #EE1D5255;
 }
 
-.alert-item.platform-kofi {
+body.theme-mode-platform .alert-item.platform-kofi {
     background: linear-gradient(135deg, var(--kofi-1), var(--kofi-2));
     color: #fff;
     box-shadow: 0 0 18px #29ABE055;
 }
 
-.alert-item.platform-streamelements {
+body.theme-mode-platform .alert-item.platform-streamelements {
     background: linear-gradient(135deg, var(--streamelements-1), var(--streamelements-2));
     color: #fff;
     box-shadow: 0 0 18px #1E90FF55;
 }
 
-.alert-item.platform-streamlabs {
+body.theme-mode-platform .alert-item.platform-streamlabs {
     background: linear-gradient(135deg, var(--streamlabs-1), var(--streamlabs-2));
     color: #0a0a0a;
     box-shadow: 0 0 18px #00ffcc55;
 }
 
-.alert-item.platform-patreon {
+body.theme-mode-platform .alert-item.platform-patreon {
     background: linear-gradient(135deg, var(--patreon-1), var(--patreon-2));
     color: #fff;
     box-shadow: 0 0 18px #FF424D55;
 }
 
-.alert-item.platform-fourthwall {
+body.theme-mode-platform .alert-item.platform-fourthwall {
     background: linear-gradient(135deg, var(--fourthwall-1), var(--fourthwall-2));
     color: #fff;
     box-shadow: 0 0 18px #466edb55;
 }
 
-.alert-item.platform-tipeeestream {
+body.theme-mode-platform .alert-item.platform-tipeeestream {
     background: linear-gradient(135deg, var(--tipeee-1), var(--tipeee-2));
     color: #fff;
     box-shadow: 0 0 18px #5d192a55;
 }
 
-/* Neutral theme fallback text color */
-.alert-item:not([class*="platform-"]) {
-    color: #fff;
+
+/* ============================================================
+   NEUTRAL MODE
+   ============================================================ */
+
+body.theme-mode-neutral .alert-item {
+    background: var(--alert-bg);
+    border: 1px solid var(--alert-border);
+    box-shadow: var(--alert-shadow);
+}
+
+/* ============================================================
+   CUSTOM MODE
+   ============================================================ */
+
+body.theme-mode-custom .alert-item {
+    background: var(--alert-bg-override, var(--alert-bg));
+    color: var(--alert-text-override, #fff);
+}
+
+/* ============================================================
+   TRANSPARENT MODE
+   ============================================================ */
+
+body.theme-transparent .alert-item {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* ============================================================
+   PRESETS (VIBE)
+   ============================================================ */
+
+body.theme-preset-default .alert-item {
+    animation: default-entry 0.55s ease forwards;
+}
+
+@keyframes default-entry {
+    0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 
-/* ============================================
+body.theme-preset-neon .alert-item {
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow:
+        0 0 12px rgba(0, 255, 200, 0.5),
+        0 0 24px rgba(0, 255, 200, 0.35),
+        inset 0 0 12px rgba(0, 255, 200, 0.25);
+    animation: neon-entry 0.6s ease forwards, neon-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes neon-entry {
+    0% { opacity: 0; transform: translateY(20px) scale(0.8); filter: blur(4px); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes neon-pulse {
+    0%, 100% { box-shadow: 0 0 18px rgba(0, 255, 200, 0.5); }
+    50% { box-shadow: 0 0 28px rgba(0, 255, 200, 0.8); }
+}
+
+
+body.theme-preset-cyberpunk .alert-item {
+    border: 1px solid rgba(255, 0, 128, 0.5);
+    box-shadow:
+        0 0 18px rgba(255, 0, 128, 0.5),
+        0 0 28px rgba(0, 255, 255, 0.4);
+    animation: cyber-entry 0.55s cubic-bezier(0.19, 1, 0.22, 1) forwards,
+               cyber-glitch 2.8s infinite steps(2);
+}
+
+@keyframes cyber-entry {
+    0% { opacity: 0; transform: translateY(30px) scale(0.85); filter: blur(6px); }
+    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@keyframes cyber-glitch {
+    0%, 100% { transform: translate(0, 0); }
+    20% { transform: translate(-2px, 1px); }
+    40% { transform: translate(2px, -1px); }
+    60% { transform: translate(-1px, -2px); }
+    80% { transform: translate(1px, 2px); }
+}
+
+
+body.theme-preset-minimal .alert-item {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: none;
+    backdrop-filter: blur(6px);
+    animation: minimal-entry 0.45s ease forwards;
+}
+
+@keyframes minimal-entry {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+body.theme-preset-pastel .alert-item {
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow:
+        0 10px 24px rgba(0, 0, 0, 0.25),
+        0 0 18px rgba(255, 255, 255, 0.35);
+    animation: pastel-entry 0.55s ease forwards;
+}
+
+@keyframes pastel-entry {
+    0% { opacity: 0; transform: scale(0.9) translateY(10px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+
+/* ============================================================
    DIRECTION ANIMATIONS
-   ============================================ */
+   ============================================================ */
 
 .alert-item.dir-bottom-up { transform: translateY(20px); }
 .alert-item.dir-bottom-up.visible { transform: translateY(0); }
@@ -255,9 +351,9 @@ html, body {
 .alert-item.dir-right-left { transform: translateX(40px); }
 .alert-item.dir-right-left.visible { transform: translateX(0); }
 
-/* ============================================
+/* ============================================================
    ENTRY ANIMATIONS
-   ============================================ */
+   ============================================================ */
 
 .alert-item.anim-slide-fade { opacity: 0; transform: translateY(20px); }
 .alert-item.anim-slide-fade.visible { opacity: 1; transform: translateY(0); }
@@ -268,9 +364,9 @@ html, body {
 .alert-item.anim-scale { opacity: 0; transform: scale(0.8); }
 .alert-item.anim-scale.visible { opacity: 1; transform: scale(1); }
 
-/* ============================================
-   Exit ANIMATIONS
-   ============================================ */
+/* ============================================================
+   EXIT ANIMATION
+   ============================================================ */
 
 .alert-item.exit {
     opacity: 0;
