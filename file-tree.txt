@@ -19,9 +19,9 @@ C:\USERS\MATEU\DESKTOP\STREAM\_WIDGET_FRAMEWORK
 |       widget-api.md
 |       
 +---shared
-|   |   events-loader.js
 |   |   events-map.js
 |   |   platforms.js
+|   |   theme.js
 |   |   
 |   +---clients
 |   |       index.js
@@ -143,7 +143,6 @@ C:\USERS\MATEU\DESKTOP\STREAM\_WIDGET_FRAMEWORK
 |   |       filters.js
 |   |       index.js
 |   |       types.js
-|   |       uem.js
 |   |       
 |   \---utils
 |           avatar.js
