@@ -142,6 +142,7 @@ C:\USERS\MATEU\DESKTOP\STREAM\_WIDGET_FRAMEWORK
 |   |       buffer.js
 |   |       filters.js
 |   |       index.js
+|   |       render-modes.js
 |   |       types.js
 |   |       
 |   \---utils
