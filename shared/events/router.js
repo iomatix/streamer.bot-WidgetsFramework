@@ -1,4 +1,4 @@
-import { eventsMap } from "./events-map.js";
+import { eventsMap } from "../events-map.js";
 import { UEM } from "../uem/index.js";
 
 export function routeEvent(eventName, data) {
