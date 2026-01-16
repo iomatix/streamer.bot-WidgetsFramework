@@ -1,5 +1,3 @@
-import StreamerbotClient from "https://cdn.jsdelivr.net/npm/@streamerbot/client/dist/streamerbot-client.js";
-
 const SB_SERVER_ADDRESS = "127.0.0.1";
 const SB_SERVER_PORT = "8080";
 export const sbClient = new StreamerbotClient({
