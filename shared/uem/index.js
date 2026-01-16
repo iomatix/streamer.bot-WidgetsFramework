@@ -1,5 +1,5 @@
 import { pushToBuffer } from "./buffer.js";
-import { filterEvents } from "./filters.js";
+import { passesFilters } from "./filters.js";
 
 const listeners = new Map();
 
@@ -19,5 +19,26 @@ export const UEM = {
     on(type, handler) {
         if (!listeners.has(type)) listeners.set(type, []);
         listeners.get(type).push(handler);
+    },
+
+    process(event) {
+        if (!event) return null;
+
+        // 1. buffer
+        pushToBuffer(event);
+
+        // 2. URL params → filters
+        const params = new URLSearchParams(window.location.search);
+        const filterParams = {
+            platform: params.get("platform"),
+            type: params.get("type"),
+            tag: params.get("tag"),
+            excludeTag: params.get("excludeTag")
+        };
+
+        if (!passesFilters(event, filterParams)) return null;
+
+        // 3. return event for rendering
+        return event;
     }
 };
