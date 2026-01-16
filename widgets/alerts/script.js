@@ -1,10 +1,11 @@
 import { sbClient } from "../../shared/clients/sb-client.js";
 import { initCustomClients } from "../../shared/clients/init.js";
 import { routeEvent } from "../../shared/events/router.js";
+import { Renderer } from "./renderer.js";
 
 function handleIncoming(eventName, data) {
     const alert = routeEvent(eventName, data);
-    if (alert) renderAlert(alert);
+    if (alert) Renderer.showAlert(alert);
 }
 
 // SB events — wildcard
