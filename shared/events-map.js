@@ -13,7 +13,7 @@ import * as TreatStream from "./events/treatstream/index.js";
 import * as TikTok from "./events/tiktok/index.js";
 import * as Streamloots from "./events/streamloots/index.js";
 
-export const EVENT_ADAPTERS = {
+export const eventsMap = {
     "Twitch.Follow": Twitch.TwitchFollowAdapter,
     "Twitch.Cheer": Twitch.TwitchCheerAdapter,
     "Twitch.Sub": Twitch.TwitchSubAdapter,
