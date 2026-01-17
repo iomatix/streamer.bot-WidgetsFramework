@@ -1,5 +1,7 @@
+import { PLATFORM_ICONS } from "../../platforms.js";
+
 export function KofiDonationAdapter(data) {
-    const user = data.from || "Someone";
+    const user = data.from_name || "Someone";
     const amount = data.amount;
     const currency = data.currency;
     const message = data.message || "";
@@ -18,7 +20,7 @@ export function KofiDonationAdapter(data) {
         description,
         attribute: "",
         message,
-        avatar: "icons/platforms/kofi.png",
+        avatar: PLATFORM_ICONS.kofi,
         raw: data
     };
 }

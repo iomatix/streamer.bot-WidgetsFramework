@@ -2,7 +2,7 @@ export const PLATFORM_ICONS = {
     twitch: "/assets/icons/platforms/twitch.png",
     youtube: "/assets/icons/platforms/youtube.png",
     kick: "/assets/icons/platforms/kick.png",
-    kofi: "/assets/icons/platforms/kofi.png",
+    kofi: "/assets/icons/platforms/kofi_symbol.png",
     patreon: "/assets/icons/platforms/patreon.png",
     streamelements: "/assets/icons/platforms/streamelements.png",
     streamlabs: "/assets/icons/platforms/streamlabs.png",
