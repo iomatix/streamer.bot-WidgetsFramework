@@ -96,29 +96,60 @@ export const Renderer = {
     // LIST MODE
     renderList(events) {
         const container = this.getContainer();
-        container.innerHTML = ""; // clear
 
+        // Map existing DOM nodes by event ID
+        const existing = new Map();
+        container.querySelectorAll(".alert-item").forEach(el => {
+            const id = el.dataset.id;
+            if (id) existing.set(id, el);
+        });
+
+        // Build a Set of new IDs
+        const newIds = new Set(events.map(ev => ev.__id));
+
+        // Remove DOM nodes that are no longer present
+        existing.forEach((el, id) => {
+            if (!newIds.has(id)) el.remove();
+        });
+
+        // Add or update nodes in correct order
         events.forEach(ev => {
-            const el = this.buildAlertElement(ev);
+            let el = existing.get(ev.__id);
 
-            // list mode = no animations
-            el.classList.add("visible");
-            el.style.transition = "none";
+            if (!el) {
+                // Create new element
+                el = this.buildAlertElement(ev);
+                el.dataset.id = ev.__id;
 
-            container.appendChild(el);
+                // list mode = no animations
+                el.classList.add("visible");
+                el.style.transition = "none";
+
+                container.appendChild(el);
+            } else {
+                // Element exists — ensure correct order
+                if (el.nextSibling !== container.children[events.indexOf(ev)]) {
+                    container.appendChild(el);
+                }
+            }
         });
     },
 
     // INDEX MODE
     renderIndex(event) {
         const container = this.getContainer();
-        container.innerHTML = ""; // clear
+
+        // If same event already displayed → do nothing
+        const existing = container.querySelector(".alert-item");
+        if (existing && existing.dataset.id === event?.__id) return;
+
+        container.innerHTML = "";
 
         if (!event) return;
 
         const el = this.buildAlertElement(event);
+        el.dataset.id = event.__id;
 
-        // index mode = no animations
         el.classList.add("visible");
         el.style.transition = "none";
 
