@@ -5,6 +5,7 @@ import { routeEvent } from "../../shared/events/router.js";
 import { Renderer } from "./renderer.js";
 import { getRenderMode, getFilteredEvents, getListCount, getIndex } from "../../shared/uem/render-modes.js";
 import { eventBuffer, pushToBuffer } from "../../shared/uem/buffer.js";
+import { eventsMap } from "../../shared/events-map.js";
 import { UEM } from "../../shared/uem/index.js";
 import { filterEvents } from "../../shared/uem/filters.js";
 
@@ -12,8 +13,17 @@ import { filterEvents } from "../../shared/uem/filters.js";
 window.addEventListener("message", async (ev) => {
     if (ev.data.widget !== "alerts") return;
 
-    const { eventName, data } = ev.data;
-    await handleIncoming(eventName, data);
+    // Handle test events
+    if (ev.data.eventName) {
+        await handleIncoming(ev.data.eventName, ev.data.data);
+        return;
+    }
+
+    // Handle live CSS
+    if (ev.data.css) {
+        applyLiveCSS(ev.data.css);
+        return;
+    }
 });
 
 ThemeManager.init();
@@ -58,8 +68,6 @@ async function handleIncoming(eventName, data) {
     );
     return;
 }
-
-
 
 // SB events — wildcard
 sbClient.on("*", async ({ event, data }) => {

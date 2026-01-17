@@ -22,21 +22,153 @@ document.getElementById("sim-send").onclick = () => {
         eventName: `${platform}.${type}`,
         data: event
     }, "*");
+
+
 };
 
 function generateTestEvent(platform, type) {
+    // It's a RAW event for adapters, not UEM.
+    // For unsupported combinations, we return a minimal placeholder.
+
+    // TWITCH
+    if (platform === "twitch") {
+        if (type === "follow") {
+            return {
+                user_id: "123456",
+                user_login: "TestUser",
+                user_name: "TestUser",
+                followed_at: new Date().toISOString(),
+                is_test: true
+            };
+        }
+
+        if (type === "sub" || type === "resub") {
+            return {
+                sub_tier: "1000",
+                is_prime: type === "sub" ? false : true,
+                duration_months: 1,
+                user: {
+                    id: "123456",
+                    login: "TestUser",
+                    name: "TestUser",
+                    type: "twitch",
+                    badges: [],
+                    subscribed: true,
+                    monthsSubscribed: 1
+                },
+                messageId: "test-message-id",
+                systemMessage: "TestUser subscribed with Prime.",
+                isTest: true,
+                isInSharedChat: false,
+                isSharedChatHost: false,
+                isFromSharedChatGuest: false
+            };
+        }
+
+        if (type === "raid") {
+            return {
+                raider: "TestUser",
+                viewers: 42,
+                is_test: true
+            };
+        }
+
+        if (type === "cheer") {
+            return {
+                bits: 100,
+                user: {
+                    name: "TestUser",
+                    login: "TestUser"
+                },
+                message: "Cheer test",
+                is_test: true
+            };
+        }
+    }
+
+    // KO-FI
+    if (platform === "kofi") {
+        if (type === "donation") {
+            return {
+                messageId: "test-message-id",
+                timestamp: new Date().toISOString(),
+                from: "TestUser",
+                isPublic: true,
+                message: "Ko-fi test donation",
+                amount: "3.00",
+                currency: "USD"
+            };
+        }
+
+        if (type === "sub" || type === "resub") {
+            return {
+                messageId: "test-message-id",
+                timestamp: new Date().toISOString(),
+                from: "TestUser",
+                isPublic: true,
+                message: "Ko-fi test subscription",
+                amount: "3.00",
+                currency: "USD"
+            };
+        }
+    }
+
+    // STREAMELEMENTS
+    if (platform === "streamelements") {
+        if (type === "donation") {
+            return {
+                amount: 5,
+                currency: "USD",
+                username: "TestUser",
+                message: "StreamElements tip test"
+            };
+        }
+    }
+
+    // STREAMLABS
+    if (platform === "streamlabs") {
+        if (type === "donation") {
+            return {
+                amount: 5,
+                currency: "USD",
+                name: "TestUser",
+                message: "Streamlabs donation test"
+            };
+        }
+    }
+
+    // PATREON
+    if (platform === "patreon") {
+        if (type === "sub") {
+            return {
+                full_name: "TestUser",
+                amount_cents: 500,
+                currency: "USD",
+                pledge_relationship_start: new Date().toISOString()
+            };
+        }
+    }
+
+    // FOURTHWALL
+    if (platform === "fourthwall") {
+        if (type === "donation") {
+            return {
+                amount: 5,
+                currency: "USD",
+                supporterName: "TestUser",
+                message: "Fourthwall donation test"
+            };
+        }
+    }
+
+    // Fallback dla nieobsługiwanych kombinacji
     return {
-        source: platform,
-        type: type,
-        user: {
-            name: "TestUser",
-            avatar: `https://placekittens.com/${100 + Math.floor(Math.random() * 50)}/${100 + Math.floor(Math.random() * 50)}`
-        },
-        amount: Math.floor(Math.random() * 100),
-        message: "This is a simulated event",
-        raw: { simulated: true }
+        is_test: true,
+        platform,
+        type
     };
 }
+
 
 /****************************************************
  * CUSTOM JSON EVENT
@@ -46,13 +178,16 @@ document.getElementById("send-json").onclick = () => {
     const text = document.getElementById("json-input").value;
     try {
         const event = JSON.parse(text);
+        const platform = event.platform || event.source;
+        const type = event.type || event.eventType;
         const frame = getPreviewFrame();
         if (!frame || !frame.contentWindow) { console.warn("Preview frame not ready yet"); return; }
         frame.contentWindow.postMessage({
             widget: "alerts",
-            eventName: `${event.source}.${event.type}`,
+            eventName: `${platform}.${type}`,
             data: event
         }, "*");
+
     } catch (err) {
         alert("Invalid JSON");
     }
@@ -157,24 +292,14 @@ function runStressTest() {
         const platform = platforms[Math.floor(Math.random() * platforms.length)];
         const type = types[Math.floor(Math.random() * types.length)];
 
-        const event = {
-            platform,
-            type,
-            subtype: "stress",
-            tags: ["stress", platform, type],
-            username: `User${Math.floor(Math.random() * 9999)}`,
-            description: `${type} event`,
-            attribute: `${Math.floor(Math.random() * 100)} units`,
-            message: "Stress test event",
-            avatar: `https://placekittens.com/${100 + Math.floor(Math.random() * 50)}/${100 + Math.floor(Math.random() * 50)}`,
-            raw: { stress: true }
-        };
+        const event = generateTestEvent(platform, type);
 
         frame.contentWindow.postMessage({
             widget: "alerts",
             eventName: `${platform}.${type}`,
             data: event
         }, "*");
+
 
         count++;
     }, delay);
