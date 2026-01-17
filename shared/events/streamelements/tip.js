@@ -1,3 +1,6 @@
+
+import { PLATFORM_ICONS } from "../../platforms.js";
+
 export function StreamElementsTipAdapter(data) {
     const username = data.username || "Someone";
     const amount = data.amount;
@@ -18,7 +21,7 @@ export function StreamElementsTipAdapter(data) {
         description: `donated ${formattedAmount}`,
         attribute: "",
         message,
-        avatar: "", // SE does not provide avatar
+        avatar: PLATFORM_ICONS.streamelements,
         raw: data
     };
 }

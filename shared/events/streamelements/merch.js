@@ -1,3 +1,6 @@
+
+import { PLATFORM_ICONS } from "../../platforms.js";
+
 export function StreamElementsMerchAdapter(data) {
     const username = data.username || "Someone";
     const item = data.item || "an item";
@@ -18,7 +21,7 @@ export function StreamElementsMerchAdapter(data) {
         description: `bought merch`,
         attribute: `${item} (${formattedAmount})`,
         message: "",
-        avatar: "",
+        avatar: PLATFORM_ICONS.streamelements,
         raw: data
     };
 }
