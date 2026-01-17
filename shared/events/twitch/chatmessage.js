@@ -17,7 +17,12 @@ export async function TwitchChatMessageAdapter(data) {
         username,
         description: "",
         attribute: "",
-        message: data.message.message, // tekst wiadomości
+        badges: data.message?.badges || [],
+        color: data.message?.color || null,
+        message: {
+            raw: data.text || data.message?.message,
+            parts: data.parts || data.message?.parts || []
+        },
         avatar: await GetAvatar(username, "twitch"),
         raw: data
     };

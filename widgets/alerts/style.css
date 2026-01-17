@@ -495,3 +495,65 @@ body.theme-preset-pastel .alert-item {
     transform: translateY(20px) scale(0.25);
     transition: opacity 0.45s ease, transform 0.45s ease;
 }
+
+/* ====================== CHAT MESSAGES ====================== */
+
+.chat-emote {
+    height: 1.5em;
+    vertical-align: middle;
+}
+
+.chat-emote.zero-width {
+    margin-left: -1.2em;
+}
+
+
+/* ====================== BADGES ====================== */
+
+.alert-badges {
+    display: flex;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+.alert-badge {
+    height: 1em;
+    vertical-align: middle;
+}
+
+/* ===== NEW LAYOUT ===== */
+
+.alert-item {
+    display: flex;
+    align-items: flex-start;
+}
+
+/* Left column: avatar + badges */
+.alert-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Right column: username + message */
+.alert-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 4px;
+    flex: 1;
+}
+
+/* Badges under avatar */
+.alert-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+    max-width: var(--avatar-size);
+}
+
+.alert-badge {
+    height: 1em;
+}

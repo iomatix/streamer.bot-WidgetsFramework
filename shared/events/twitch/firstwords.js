@@ -16,7 +16,12 @@ export async function TwitchFirstWordsAdapter(data) {
         username,
         description: "sent their first message!",
         attribute: "",
-        message: data.message.message,
+        badges: data.message?.badges || [],
+        color: data.message?.color || null,
+        message: {
+            raw: data.text || data.message?.message,
+            parts: data.parts || data.message?.parts || []
+        },
         avatar: await GetAvatar(username, "twitch"),
         raw: data
     };
