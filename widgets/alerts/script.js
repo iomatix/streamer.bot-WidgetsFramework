@@ -5,6 +5,8 @@ import { routeEvent } from "../../shared/events/router.js";
 import { Renderer } from "./renderer.js";
 import { getRenderMode, getFilteredEvents, getListCount, getIndex } from "../../shared/uem/render-modes.js";
 import { eventBuffer, pushToBuffer } from "../../shared/uem/buffer.js";
+import { UEM } from "../../shared/uem/index.js";
+import { filterEvents } from "../../shared/uem/filters.js";
 
 
 ThemeManager.init();
@@ -23,7 +25,7 @@ async function handleIncoming(eventName, data) {
 
     if (mode === "list") {
         if (isAlert) {
-            const events = getFilteredEvents().slice(-getListCount());
+            const events = getFilteredEvents().slice(0, getListCount());
             Renderer.renderList(events);
         }
         return;
