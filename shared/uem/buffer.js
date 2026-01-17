@@ -3,7 +3,11 @@ const LIMIT = 16;
 
 export function pushToBuffer(event) {
     if (!event.__id) {
-        event.__id = crypto.randomUUID();
+        if (window.crypto?.randomUUID) {
+            event.__id = window.crypto.randomUUID();
+        } else {
+            event.__id = `ev_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+        }
     }
 
     eventBuffer.unshift(event);

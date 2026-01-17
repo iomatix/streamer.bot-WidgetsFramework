@@ -8,6 +8,13 @@ import { eventBuffer, pushToBuffer } from "../../shared/uem/buffer.js";
 import { UEM } from "../../shared/uem/index.js";
 import { filterEvents } from "../../shared/uem/filters.js";
 
+// Receive events from test harness
+window.addEventListener("message", async (ev) => {
+    if (ev.data.widget !== "alerts") return;
+
+    const { eventName, data } = ev.data;
+    await handleIncoming(eventName, data);
+});
 
 ThemeManager.init();
 async function handleIncoming(eventName, data) {
@@ -20,25 +27,36 @@ async function handleIncoming(eventName, data) {
 
     if (mode === "live") {
         if (isAlert) Renderer.showAlert(alert);
-        return;
     }
-
-    if (mode === "list") {
+    else if (mode === "list") {
         if (isAlert) {
             const events = getFilteredEvents().slice(0, getListCount());
             Renderer.renderList(events);
         }
-        return;
     }
-
-    if (mode === "index") {
+    else if (mode === "index") {
         if (isAlert) {
             const events = getFilteredEvents();
             const index = getIndex();
             Renderer.renderIndex(events[index]);
         }
-        return;
     }
+
+    sendDebug(
+        alert,
+        getFilteredEvents(),
+        eventBuffer,
+        {
+            mode,
+            listCount: getListCount(),
+            index: getIndex(),
+            dom: [...document.querySelectorAll(".alert-item")].map(el => ({
+                id: el.dataset.id,
+                classes: [...el.classList]
+            }))
+        }
+    );
+    return;
 }
 
 
@@ -54,3 +72,16 @@ sbClient.on("*", async ({ event, data }) => {
 initCustomClients(async (eventName, data) => {
     await handleIncoming(eventName, data);
 });
+
+// Debug
+function sendDebug(normalized, filtered, buffer, renderInfo) {
+    window.parent.postMessage({
+        widget: "alerts-debug",
+        uem: {
+            normalizedEvent: normalized,
+            filteredEvents: filtered,
+            eventBuffer: buffer
+        },
+        renderer: renderInfo
+    }, "*");
+}

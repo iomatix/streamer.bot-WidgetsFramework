@@ -3,6 +3,14 @@ export const Renderer = {
         return document.getElementById("alert-container");
     },
 
+    getParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            direction: params.get("dir") || "bottom-up",
+            anim: params.get("anim") || "slide-fade"
+        };
+    },
+
     buildAlertElement(alert) {
         const el = document.createElement("div");
 
@@ -32,12 +40,10 @@ export const Renderer = {
         }
 
         // Direction (default: bottom-up)
-        const params = new URLSearchParams(window.location.search);
-        const direction = params.get("dir") || "bottom-up";
+        const { direction, anim } = this.getParams();
         el.classList.add(`dir-${direction}`);
 
         // Animation (default: slide-fade)
-        const anim = params.get("anim") || "slide-fade";
         el.classList.add(`anim-${anim}`);
 
         // Avatar (optional)
@@ -83,6 +89,12 @@ export const Renderer = {
     showAlert(alert) {
         const container = this.getContainer();
         const el = this.buildAlertElement(alert);
+
+        // Live mode doesn't need a stable ID, but adding it doesn't hurt
+        if (alert.__id) {
+            el.dataset.id = alert.__id;
+        }
+
         container.appendChild(el);
 
         requestAnimationFrame(() => el.classList.add("visible"));
@@ -93,57 +105,58 @@ export const Renderer = {
         }, 5000);
     },
 
-    // LIST MODE
+    // LIST MODE — diff without flickering
     renderList(events) {
         const container = this.getContainer();
 
-        // Map existing DOM nodes by event ID
+        // Map existing elements by ID
         const existing = new Map();
         container.querySelectorAll(".alert-item").forEach(el => {
             const id = el.dataset.id;
             if (id) existing.set(id, el);
         });
 
-        // Build a Set of new IDs
+        // Set of new IDs
         const newIds = new Set(events.map(ev => ev.__id));
 
-        // Remove DOM nodes that are no longer present
+        // Remove elements that are no longer in the list
         existing.forEach((el, id) => {
-            if (!newIds.has(id)) el.remove();
+            if (!newIds.has(id)) {
+                el.remove();
+                existing.delete(id);
+            }
         });
 
-        // Add or update nodes in correct order
+        // Add new elements (we don't move/reorder existing ones)
         events.forEach(ev => {
             let el = existing.get(ev.__id);
 
             if (!el) {
-                // Create new element
                 el = this.buildAlertElement(ev);
                 el.dataset.id = ev.__id;
 
-                // list mode = no animations
+                // list mode = no entrance animation (just visible state)
                 el.classList.add("visible");
                 el.style.transition = "none";
 
                 container.appendChild(el);
-            } else {
-                // Element exists — ensure correct order
-                if (el.nextSibling !== container.children[events.indexOf(ev)]) {
-                    container.appendChild(el);
-                }
+                existing.set(ev.__id, el);
             }
+            // if already exists – do nothing, don't touch the DOM
         });
     },
 
-    // INDEX MODE
+    // INDEX / SINGLE MODE — only when the event actually changes
     renderIndex(event) {
         const container = this.getContainer();
 
-        // If same event already displayed → do nothing
-        const existing = container.querySelector(".alert-item");
-        if (existing && existing.dataset.id === event?.__id) return;
+        const current = container.querySelector(".alert-item");
+        if (current && event && current.dataset.id === event.__id) {
+            // Same event — do nothing, zero flickering
+            return;
+        }
 
-        container.innerHTML = "";
+        container.innerHTML = ""; // clear only when there's an actual change
 
         if (!event) return;
 

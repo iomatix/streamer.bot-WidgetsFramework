@@ -66,3 +66,34 @@ body {
     border: none;
     background: #000;
 }
+
+/* Debug panel */
+#debugPanel {
+    flex: 1 1 350px;
+    min-width: 320px;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 12px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#debugPanel pre {
+    background: #000;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#url-preview {
+    background: #000;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    word-break: break-all;
+}

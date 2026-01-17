@@ -19,21 +19,21 @@ document.getElementById("sim-send").onclick = () => {
     if (!frame || !frame.contentWindow) { console.warn("Preview frame not ready yet"); return; }
     frame.contentWindow.postMessage({
         widget: "alerts",
-        event
+        eventName: `${platform}.${type}`,
+        data: event
     }, "*");
 };
 
 function generateTestEvent(platform, type) {
     return {
-        platform,
-        type,
-        subtype: "test",
-        tags: ["test", platform, type],
-        username: "TestUser",
-        description: `${type} event triggered`,
-        attribute: "Test attribute",
+        source: platform,
+        type: type,
+        user: {
+            name: "TestUser",
+            avatar: `https://placekittens.com/${100 + Math.floor(Math.random() * 50)}/${100 + Math.floor(Math.random() * 50)}`
+        },
+        amount: Math.floor(Math.random() * 100),
         message: "This is a simulated event",
-        avatar: `https://placekittens.com/${100 + Math.floor(Math.random()*50)}/${100 + Math.floor(Math.random()*50)}`,
         raw: { simulated: true }
     };
 }
@@ -50,7 +50,8 @@ document.getElementById("send-json").onclick = () => {
         if (!frame || !frame.contentWindow) { console.warn("Preview frame not ready yet"); return; }
         frame.contentWindow.postMessage({
             widget: "alerts",
-            event
+            eventName: `${event.source}.${event.type}`,
+            data: event
         }, "*");
     } catch (err) {
         alert("Invalid JSON");
@@ -165,13 +166,14 @@ function runStressTest() {
             description: `${type} event`,
             attribute: `${Math.floor(Math.random() * 100)} units`,
             message: "Stress test event",
-            avatar: `https://placekittens.com/${100 + Math.floor(Math.random()*50)}/${100 + Math.floor(Math.random()*50)}`,
+            avatar: `https://placekittens.com/${100 + Math.floor(Math.random() * 50)}/${100 + Math.floor(Math.random() * 50)}`,
             raw: { stress: true }
         };
 
         frame.contentWindow.postMessage({
             widget: "alerts",
-            event
+            eventName: `${platform}.${type}`,
+            data: event
         }, "*");
 
         count++;

@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Widget Test Harness</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <h1>Widget Test Harness</h1>
@@ -49,7 +51,7 @@
             <option value="pastel">Pastel</option>
             <option value="minimal">Minimal</option>
         </select>
-        
+
         <h2>Theme Mode</h2>
         <select id="theme-mode">
             <option value="platform">Platform Colors</option>
@@ -73,7 +75,14 @@
 
         <h2>Stress Test</h2>
         <button id="stress-test">Run Stress Test (100 events)</button>
+        <label>Count:</label>
+        <input id="stress-count" type="number" value="100">
 
+        <label>Delay (ms):</label>
+        <input id="stress-delay" type="number" value="30">
+
+        <label><input type="checkbox" id="stress-random-platforms" checked> Random Platforms</label>
+        <label><input type="checkbox" id="stress-random-types" checked> Random Types</label>
         <h2>Custom JSON Event</h2>
         <textarea id="json-input" placeholder="Paste UEM JSON here"></textarea>
         <button id="send-json">Send JSON Event</button>
@@ -83,6 +92,8 @@
         <button id="apply-live-css">Apply Live CSS</button>
     </div>
 
+
     <script type="module" src="script.js"></script>
 </body>
+
 </html>

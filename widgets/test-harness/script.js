@@ -33,6 +33,10 @@ function loadWidgetTestUI(widget) {
     `;
 
     previewFrame.src = cfg.widgetUrl + "?debug=1";
+
+    previewFrame.onload = () => {
+        document.getElementById("url-preview").textContent = previewFrame.src;
+    };
 }
 
 widgetSelect.addEventListener("change", () => {
@@ -49,3 +53,30 @@ openBtn.addEventListener("click", () => {
 
 // Load default widget
 loadWidgetTestUI("alerts");
+
+// Handle messages from the widget
+window.addEventListener("message", (ev) => {
+    if (ev.data.widget !== "alerts-debug") return;
+
+    document.getElementById("uem-debug").textContent =
+        JSON.stringify(ev.data.uem, null, 2);
+
+    document.getElementById("renderer-debug").textContent =
+        JSON.stringify(ev.data.renderer, null, 2);
+});
+
+function saveState() {
+    localStorage.setItem("harnessState", JSON.stringify({
+        widget: widgetSelect.value,
+        theme: document.getElementById("theme-select")?.value,
+        themeMode: document.getElementById("theme-mode")?.value,
+        renderMode: document.getElementById("render-mode")?.value
+    }));
+}
+
+const saved = JSON.parse(localStorage.getItem("harnessState") || "{}");
+
+if (saved.widget) widgetSelect.value = saved.widget;
+if (saved.theme) document.getElementById("theme-select").value = saved.theme;
+if (saved.themeMode) document.getElementById("theme-mode").value = saved.themeMode;
+if (saved.renderMode) document.getElementById("render-mode").value = saved.renderMode;
