@@ -3,10 +3,9 @@ import socketserver
 import os
 import sys
 
-# Domyślny port
 DEFAULT_PORT = 8181
 
-# Jeśli podano argument, użyj go
+# Port with argument or default
 if len(sys.argv) > 1:
     try:
         PORT = int(sys.argv[1])
@@ -16,8 +15,9 @@ if len(sys.argv) > 1:
 else:
     PORT = DEFAULT_PORT
 
-# Ustaw katalog roboczy na folder skryptu
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+# Set project root
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+os.chdir(PROJECT_ROOT)
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):
@@ -26,6 +26,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.send_header("Expires", "0")
         super().end_headers()
 
+# Server works from the project root
 with socketserver.TCPServer(("", PORT), Handler) as httpd:
     print(f"Serwer działa na http://localhost:{PORT}")
+    print(f"Serwuję katalog: {PROJECT_ROOT}")
     httpd.serve_forever()

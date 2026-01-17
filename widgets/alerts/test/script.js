@@ -1,4 +1,57 @@
-console.log("Alerts Test Panel Loaded");
+import { eventsMap } from "../../../shared/events-map.js";
+
+document.addEventListener("DOMContentLoaded", () => {
+    initTestUI();
+});
+
+function initTestUI() {
+    console.log("Alerts Test Panel Loaded");
+
+    const platformSelect = document.getElementById("sim-platform");
+    const typeSelect = document.getElementById("sim-type");
+
+    // Fill platforms
+    const platforms = getSupportedPlatforms();
+    platformSelect.innerHTML = platforms
+        .map(p => `<option value="${p}">${p}</option>`)
+        .join("");
+
+    // Fill types for first platform
+    updateTypes(platformSelect.value);
+
+    // When platform changes → update types
+    platformSelect.onchange = () => {
+        updateTypes(platformSelect.value);
+    };
+}
+
+function updateTypes(platform) {
+    const typeSelect = document.getElementById("sim-type");
+    const types = getSupportedTypesForPlatform(platform);
+    typeSelect.innerHTML = types
+        .map(t => `<option value="${t}">${t}</option>`)
+        .join("");
+}
+
+function getSupportedPlatforms() {
+    const platforms = new Set();
+    Object.keys(eventsMap).forEach(key => {
+        const [platform] = key.split(".");
+        platforms.add(platform.toLowerCase());
+    });
+    return [...platforms];
+}
+
+function getSupportedTypesForPlatform(platform) {
+    const types = new Set();
+    Object.keys(eventsMap).forEach(key => {
+        const [p, type] = key.split(".");
+        if (p.toLowerCase() === platform.toLowerCase()) {
+            types.add(type.toLowerCase());
+        }
+    });
+    return [...types];
+}
 
 // Access previewFrame in test-harness
 function getPreviewFrame() {
