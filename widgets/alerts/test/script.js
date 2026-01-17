@@ -27,11 +27,13 @@ document.getElementById("sim-send").onclick = () => {
 };
 
 function generateTestEvent(platform, type) {
-    // It's a RAW event for adapters, not UEM.
-    // For unsupported combinations, we return a minimal placeholder.
 
-    // TWITCH
+    //
+    //  TWITCH
+    //
     if (platform === "twitch") {
+
+        // FOLLOW
         if (type === "follow") {
             return {
                 user_id: "123456",
@@ -42,9 +44,10 @@ function generateTestEvent(platform, type) {
             };
         }
 
+        // SUB / RESUB
         if (type === "sub" || type === "resub") {
             return {
-                sub_tier: "1000",
+                sub_tier: "1000",              // adapter uses charAt(0)
                 is_prime: type === "sub" ? false : true,
                 duration_months: 1,
                 user: {
@@ -65,14 +68,7 @@ function generateTestEvent(platform, type) {
             };
         }
 
-        if (type === "raid") {
-            return {
-                raider: "TestUser",
-                viewers: 42,
-                is_test: true
-            };
-        }
-
+        // CHEER
         if (type === "cheer") {
             return {
                 bits: 100,
@@ -84,10 +80,23 @@ function generateTestEvent(platform, type) {
                 is_test: true
             };
         }
+
+        // RAID
+        if (type === "raid") {
+            return {
+                raider: "TestUser",
+                viewers: 42,
+                is_test: true
+            };
+        }
     }
 
-    // KO-FI
+    //
+    //  KO-FI
+    //
     if (platform === "kofi") {
+
+        // DONATION
         if (type === "donation") {
             return {
                 messageId: "test-message-id",
@@ -95,11 +104,12 @@ function generateTestEvent(platform, type) {
                 from: "TestUser",
                 isPublic: true,
                 message: "Ko-fi test donation",
-                amount: "3.00",
+                amount: "3.00",        // adapter expects STRING
                 currency: "USD"
             };
         }
 
+        // SUB / RESUB
         if (type === "sub" || type === "resub") {
             return {
                 messageId: "test-message-id",
@@ -113,20 +123,27 @@ function generateTestEvent(platform, type) {
         }
     }
 
-    // STREAMELEMENTS
+    //
+    //  STREAMELEMENTS
+    //
     if (platform === "streamelements") {
-        if (type === "donation") {
+
+        // TIP / DONATION
+        if (type === "donation" || type === "tip") {
             return {
-                amount: 5,
-                currency: "USD",
+                amount: 5,             // adapter expects NUMBER
+                currency: "$",
                 username: "TestUser",
                 message: "StreamElements tip test"
             };
         }
     }
 
-    // STREAMLABS
+    //
+    //  STREAMLABS
+    //
     if (platform === "streamlabs") {
+
         if (type === "donation") {
             return {
                 amount: 5,
@@ -137,20 +154,27 @@ function generateTestEvent(platform, type) {
         }
     }
 
-    // PATREON
-    if (platform === "patreon") {
-        if (type === "sub") {
+    //
+    //  FOURTHWALL
+    //
+    if (platform === "fourthwall") {
+
+        if (type === "order") {
             return {
-                full_name: "TestUser",
-                amount_cents: 500,
-                currency: "USD",
-                pledge_relationship_start: new Date().toISOString()
+                customer: {
+                    name: "TestUser"
+                },
+                items: [
+                    { name: "Test Item 1" },
+                    { name: "Test Item 2" }
+                ],
+                total: {
+                    amount: 25,
+                    currency: "USD"
+                }
             };
         }
-    }
 
-    // FOURTHWALL
-    if (platform === "fourthwall") {
         if (type === "donation") {
             return {
                 amount: 5,
@@ -161,14 +185,15 @@ function generateTestEvent(platform, type) {
         }
     }
 
-    // Fallback dla nieobsługiwanych kombinacji
+    //
+    // FALLBACK
+    //
     return {
         is_test: true,
         platform,
         type
     };
 }
-
 
 /****************************************************
  * CUSTOM JSON EVENT
